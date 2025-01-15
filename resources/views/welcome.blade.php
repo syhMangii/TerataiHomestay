@@ -83,6 +83,7 @@
         <ul class="nav">
           <li class="nav-item"><a href="#hero" class="nav-link active">Home</a></li>
           <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
+          <li class="nav-item"><a href="#catalog" class="nav-link">Catalog</a></li>
           <li class="nav-item"><a href="#contact" class="nav-link">Contact Us</a></li>
           <li class="nav-item"><a href="/faq" target="_blank" class="nav-link">FAQ</a></li>
         </ul>
@@ -137,6 +138,72 @@
   </div>
 </section><!-- End About Section -->
 
+<!-- Catalog Section -->
+<section id="catalog" class="catalog section py-5">
+  <div class="container">
+    <h2 class="text-center mb-4">Room Catalog</h2>
+    <div class="row">
+      <!-- Deluxe King -->
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <img src="path-to-image.jpg" class="card-img-top" alt="Deluxe King">
+          <div class="card-body">
+            <h5 class="card-title">Deluxe King</h5>
+            <p class="card-text">
+              <strong>2 adults</strong><br>
+              1 king bed<br>
+              Free WiFi<br>
+              Air-Conditioning, Private Bathroom, Water Heater, Towel Rack Stand, Free Toiletries and Towels Provided
+            </p>
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="price">RM 98.00</span>
+              <a href="#" class="btn btn-primary btn-sm">Price Breakdown</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Family Room Downstairs -->
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <img src="path-to-image.jpg" class="card-img-top" alt="Family Room Downstairs">
+          <div class="card-body">
+            <h5 class="card-title">Family Room Downstairs</h5>
+            <p class="card-text">
+              <strong>4 adults</strong><br>
+              2 king beds<br>
+              Free WiFi<br>
+              Air-Conditioning, Private Bathroom, Water Heater, Towel Rack Stand, Free Toiletries and Towels Provided
+            </p>
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="price">RM 168.00</span>
+              <a href="#" class="btn btn-primary btn-sm">Price Breakdown</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Family Room Upstairs -->
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <img src="path-to-image.jpg" class="card-img-top" alt="Family Room Upstairs">
+          <div class="card-body">
+            <h5 class="card-title">Family Room Upstairs</h5>
+            <p class="card-text">
+              <strong>4 adults</strong><br>
+              2 king beds<br>
+              Free WiFi<br>
+              Air-Conditioning, Private Bathroom, Water Heater, Towel Rack Stand, Free Toiletries and Towels Provided
+            </p>
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="price">RM 188.00</span>
+              <a href="#" class="btn btn-primary btn-sm">Price Breakdown</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Catalog Section -->
 
     <!-- Contact Section -->
     <section id="contact" class="contact section py-5 bg-light">

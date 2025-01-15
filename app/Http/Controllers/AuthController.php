@@ -15,12 +15,12 @@ class AuthController extends Controller
      */
     public function index()
     {
-        return view('auth.login');
+        return view('Auth.login');
     }
 
     public function indexadmin()
     {
-        return view('auth.login-admin');
+        return view('Auth.login-admin');
     }
 
     /**

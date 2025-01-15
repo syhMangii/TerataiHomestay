@@ -107,9 +107,9 @@
                                         <div class="card card-gutter-md">
                                             <div class="card-body">
                                                 <div class="bio-block">
-                                                    <h4 class="bio-block-title mb-4" style="color:blue;"><u>2. BOOKING INFORMATION</u></h4>
-                                                    <div class="row g-3">
-                                                        <div class="col-lg-6">
+                                                        <h4 class="bio-block-title mb-4" style="color:blue;"><u>2. BOOKING INFORMATION</u></h4>
+                                                        <div class="row g-3">
+                                                        <div class="col-lg-3">
                                                             <div class="form-group">
                                                                 <label for="lastname" class="form-label">Booking Date</label>
                                                                 <div class="form-control-wrap">
@@ -117,6 +117,36 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="col-lg-3">
+                                                            <label for="booking_status" class="form-label">Booking Status</label>
+                                                            <select class="form-control" name="booking_status" id="booking_status" required>
+                                                                <option value="Confirmed" 
+                                                                    @if($booking->booking_status == 'Confirmed') 
+                                                                        selected 
+                                                                    @endif>
+                                                                    Confirmed
+                                                                </option>
+                                                                <option value="Incoming" 
+                                                                    @if($booking->booking_status == 'Incoming') 
+                                                                        selected 
+                                                                    @endif>
+                                                                    Incoming
+                                                                </option>
+                                                                <option value="Check-in" 
+                                                                    @if($booking->booking_status == 'Check-in') 
+                                                                        selected 
+                                                                    @endif>
+                                                                    Check-In
+                                                                </option>
+                                                                <option value="Check-out" 
+                                                                    @if($booking->booking_status == 'Check-out') 
+                                                                        selected 
+                                                                    @endif>
+                                                                    Check-Out
+                                                                </option>
+                                                            </select>
+                                                        </div>
+
                                                         <div class="col-lg-12">
                                                             <div class="form-group">
                                                                 <label for="remarks" class="form-label">Booking Description</label>

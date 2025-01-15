@@ -131,8 +131,9 @@ class AdminController extends Controller
         $booking->homestay_id = $request->input('homestay_id');
         $booking->booking_date = $request->input('booking_date');
         $booking->booking_description = $request->input('booking_description');
-        $booking->booking_total_price = $request->input('homestay_price');
-        $booking->booking_status = 'Confirmed';
+        //$booking->booking_total_price = $request->input('homestay_price');
+        //$booking->booking_status = 'Confirmed';
+        $booking->booking_status = $request->input('booking_status');
         $booking->created_by = $request->input('created_by');
         $booking->updated_by = $request->input('created_by');
         $booking->updated_at = Carbon::now();
@@ -253,6 +254,14 @@ class AdminController extends Controller
         return redirect('customers')->with('success', 'Customer Account has been deleted!');
     }
 
-    
+    public function destroyBooking($id)
+    {
+        Booking::where('id',$id)->update([
+            'deleted_at' => Carbon::now(),
+            'booking_status' => 'Cancelled'
+        ]);
 
+
+        return redirect('/bookinglist')->with('success', 'Booking has been cancelled!');
+    }
 }

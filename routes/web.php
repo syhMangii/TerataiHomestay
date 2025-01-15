@@ -57,7 +57,7 @@ Route::get('createbookingAdmin',[AdminController::class, 'createBooking']);
 Route::POST('storeBookingAdmin',[AdminController::class, 'store']);
 Route::get('editbookingAdmin/{id}',[AdminController::class, 'edit']);
 Route::POST('updateBookingAdmin/{id}',[AdminController::class, 'update']);
-
+Route::any('deleteBookingadmin/{id}',[AdminController::class, 'destroyBooking']);
 
 Route::get('createCustomer',[AdminController::class, 'createCustomer']);
 Route::POST('storeCustomer',[AdminController::class, 'storeCustomer']);
@@ -65,6 +65,7 @@ Route::get('editCustomer/{id}',[AdminController::class, 'editCustomer']);
 Route::get('viewCustomer/{id}',[AdminController::class, 'viewCustomer']);
 Route::POST('updateCustomer/{id}',[AdminController::class, 'updateCustomer']);
 Route::any('deletecustomer/{id}',[AdminController::class, 'destroyCustomer']);
+
 
 });
 
