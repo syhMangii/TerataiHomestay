@@ -143,59 +143,85 @@
   <div class="container">
     <h2 class="text-center mb-4">Room Catalog</h2>
     <div class="row">
-      <!-- Deluxe King -->
+      <!-- Chalet Triangle -->
       <div class="col-md-4 mb-4">
         <div class="card h-100">
-          <img src="path-to-image.jpg" class="card-img-top" alt="Deluxe King">
+          <img src="chalet.jpg" class="card-img-top" alt="Chalet Triangle">
           <div class="card-body">
-            <h5 class="card-title">Deluxe King</h5>
+            <h5 class="card-title">Chalet Triangle</h5>
             <p class="card-text">
-              <strong>2 adults</strong><br>
-              1 king bed<br>
-              Free WiFi<br>
-              Air-Conditioning, Private Bathroom, Water Heater, Towel Rack Stand, Free Toiletries and Towels Provided
+              Queen bed, single bed, air-cond, iron & Iron Board, heater. <br>
+              - No Cooking Allowed<br>
+              - OKU Friendly
             </p>
             <div class="d-flex justify-content-between align-items-center">
-              <span class="price">RM 98.00</span>
-              <a href="#" class="btn btn-primary btn-sm">Price Breakdown</a>
+              <span class="price">RM 250 / night</span>
             </div>
           </div>
         </div>
       </div>
-      <!-- Family Room Downstairs -->
+      <!-- Homestay 2 Rooms -->
       <div class="col-md-4 mb-4">
         <div class="card h-100">
-          <img src="path-to-image.jpg" class="card-img-top" alt="Family Room Downstairs">
+          <img src="2rooms.jpeg" class="card-img-top" alt="Homestay 2 Rooms">
           <div class="card-body">
-            <h5 class="card-title">Family Room Downstairs</h5>
+            <h5 class="card-title">Homestay 2 Rooms</h5>
             <p class="card-text">
-              <strong>4 adults</strong><br>
-              2 king beds<br>
-              Free WiFi<br>
-              Air-Conditioning, Private Bathroom, Water Heater, Towel Rack Stand, Free Toiletries and Towels Provided
+              Queen bed, air-cond, fan, basic kitchen utensils. <br>
+              Parking for 2 cars, pool view.
             </p>
             <div class="d-flex justify-content-between align-items-center">
-              <span class="price">RM 168.00</span>
-              <a href="#" class="btn btn-primary btn-sm">Price Breakdown</a>
+              <span class="price">RM 300 / night</span>
             </div>
           </div>
         </div>
       </div>
-      <!-- Family Room Upstairs -->
+      <!-- Homestay 3 Rooms (Aircond in Master Bedroom) -->
       <div class="col-md-4 mb-4">
         <div class="card h-100">
-          <img src="path-to-image.jpg" class="card-img-top" alt="Family Room Upstairs">
+          <img src="3rooms.jpg" class="card-img-top" alt="Homestay 3 Rooms">
           <div class="card-body">
-            <h5 class="card-title">Family Room Upstairs</h5>
+            <h5 class="card-title">Homestay 3 Rooms</h5>
             <p class="card-text">
-              <strong>4 adults</strong><br>
-              2 king beds<br>
-              Free WiFi<br>
-              Air-Conditioning, Private Bathroom, Water Heater, Towel Rack Stand, Free Toiletries and Towels Provided
+              (Aircond in master bedroom)<br>
+              Queen bed, single bed, air-cond, BBQ area. <br>
+              Separate bathroom, field for activities.
             </p>
             <div class="d-flex justify-content-between align-items-center">
-              <span class="price">RM 188.00</span>
-              <a href="#" class="btn btn-primary btn-sm">Price Breakdown</a>
+              <span class="price">RM 450 / night</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Homestay 3 Rooms (Aircond in Living Room) -->
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <img src="3roomsliving.jpg" class="card-img-top" alt="Homestay 3 Rooms">
+          <div class="card-body">
+            <h5 class="card-title">Homestay 3 Rooms</h5>
+            <p class="card-text">
+              (Aircond in living room)<br>
+              Queen bed, single bed, air-cond, kitchen, BBQ set. <br>
+              Large common area, parking for 2 cars.
+            </p>
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="price">RM 450 / night</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Family Day Package -->
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <img src="3rooms.jpg" class="card-img-top" alt="Family Day Package">
+          <div class="card-body">
+            <h5 class="card-title">Family Day Package</h5>
+            <p class="card-text">
+              All the facilities<br>
+              Limited pool use till 9 PM, includes BBQ facilities.
+            </p>
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="price">RM 2600 / night</span>
             </div>
           </div>
         </div>
@@ -204,6 +230,7 @@
   </div>
 </section>
 <!-- End Catalog Section -->
+
 
     <!-- Contact Section -->
     <section id="contact" class="contact section py-5 bg-light">
