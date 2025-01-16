@@ -104,58 +104,78 @@
 
 
                                         <div class="nk-block">
-                                        <div class="card card-gutter-md">
-                                            <div class="card-body">
-                                                <div class="bio-block">
-                                                        <h4 class="bio-block-title mb-4" style="color:blue;"><u>2. BOOKING INFORMATION</u></h4>
-                                                        <div class="row g-3">
-                                                        <div class="col-lg-3">
-                                                            <div class="form-group">
-                                                                <label for="lastname" class="form-label">Booking Date</label>
-                                                                <div class="form-control-wrap">
-                                                                <input type="date" class="form-control" id="booking_date" name="booking_date" value="{{ $booking->booking_date }}" required>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-3">
-                                                            <label for="booking_status" class="form-label">Booking Status</label>
-                                                            <select class="form-control" name="booking_status" id="booking_status" required>
-                                                                <option value="Confirmed" 
-                                                                    @if($booking->booking_status == 'Confirmed') 
-                                                                        selected 
-                                                                    @endif>
-                                                                    Confirmed
-                                                                </option>
-                                                                <option value="Incoming" 
-                                                                    @if($booking->booking_status == 'Incoming') 
-                                                                        selected 
-                                                                    @endif>
-                                                                    Incoming
-                                                                </option>
-                                                                <option value="Check-in" 
-                                                                    @if($booking->booking_status == 'Check-in') 
-                                                                        selected 
-                                                                    @endif>
-                                                                    Check-In
-                                                                </option>
-                                                                <option value="Check-out" 
-                                                                    @if($booking->booking_status == 'Check-out') 
-                                                                        selected 
-                                                                    @endif>
-                                                                    Check-Out
-                                                                </option>
-                                                            </select>
-                                                        </div>
-
-                                                        <div class="col-lg-12">
-                                                            <div class="form-group">
-                                                                <label for="remarks" class="form-label">Booking Description</label>
-                                                                <div class="form-control-wrap">
-                                                                    <textarea class="form-control" maxlength="1000" rows="10" name="booking_description" id="booking_description" required>{{ $booking->booking_description }}</textarea>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
+                                                            <div class="card card-gutter-md">
+                                                                <div class="card-body">
+                                                                    <div class="bio-block">
+                                                                        <h4 class="bio-block-title mb-4" style="color:blue;"><u>2. BOOKING INFORMATION</u></h4>
+                                                                        <div class="row g-3">
+                                                                            <div class="col-lg-6">
+                                                                                <div class="form-group">
+                                                                                    <label for="booking_check_in_date" class="form-label">Booking Check-In Date</label>
+                                                                                    <input 
+                                                                                        type="date" 
+                                                                                        class="form-control" 
+                                                                                        id="booking_check_in_date" 
+                                                                                        name="booking_check_in_date" 
+                                                                                        value="{{ $booking->booking_check_in_date }}" 
+                                                                                        required>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-6">
+                                                                                <div class="form-group">
+                                                                                    <label for="booking_check_out_date" class="form-label">Booking Check-Out Date</label>
+                                                                                    <input 
+                                                                                        type="date" 
+                                                                                        class="form-control" 
+                                                                                        id="booking_check_out_date" 
+                                                                                        name="booking_check_out_date" 
+                                                                                        value="{{ $booking->booking_check_out_date }}" 
+                                                                                        required>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-6">
+                                                                                <div class="form-group">
+                                                                                    <label for="booking_guest_number" class="form-label">Guest Number</label>
+                                                                                    <input 
+                                                                                        type="number" 
+                                                                                        class="form-control" 
+                                                                                        id="booking_guest_number" 
+                                                                                        name="booking_guest_number" 
+                                                                                        min="1" 
+                                                                                        max="10" 
+                                                                                        value="{{ $booking->booking_guest_number }}" 
+                                                                                        required>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-12">
+                                                                                <div class="form-group form-check form-switch">
+                                                                                    <input type="hidden" name="booking_is_bbq" value="0">
+                                                                                    <input 
+                                                                                        class="form-check-input" 
+                                                                                        type="checkbox" 
+                                                                                        id="booking_is_bbq" 
+                                                                                        name="booking_is_bbq" 
+                                                                                        value="1" 
+                                                                                        {{ $booking->booking_is_bbq ? 'checked' : '' }}>
+                                                                                    <label class="form-check-label" for="booking_is_bbq">Do you want BBQ?</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-6">
+                                                                                <label for="booking_receipt" class="form-label">Upload Payment Receipt</label>
+                                                                                <div class="input-group mb-3">
+                                                                                    <input type="file" class="form-control" id="booking_receipt" name="booking_receipt">
+                                                                                </div>                                                                            
+                                                                            </div>
+                                                                            <div class="col-lg-6">
+                                                                            <label for="download" class="form-label">Uploaded Payment Receipt</label> <p>                                                                               
+                                                                                @if($booking->booking_receipt)
+                                                                                    <a href="{{ route('download.receipt', $booking->id) }}" class="btn btn-info">
+                                                                                        <i class="bi bi-download"></i> Download
+                                                                                    </a>
+                                                                                @else
+                                                                                    <span class="text-muted">No receipt uploaded</span>
+                                                                                @endif
+                                                                            </div>
                                                         <div class="col-lg-12">
                                                             <button class="btn btn-primary" type="submit">Update Booking</button>
                                                             <a href="../bookinglist" class="btn btn-danger" type="button">Cancel</a>

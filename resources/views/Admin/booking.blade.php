@@ -52,27 +52,52 @@
     </div>
 </div>
 
-                        <table class="table" data-nk-container="table-responsive">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>No</th>
-                                    <th>Package</th>
-                                    <th>Booking Date</th>
-                                    <th>Total Price</th>
-                                    <th>Status</th>
-                                    <th>Customer</th>
-                                    <th>Last Update</th>
-                                    <th>Action</th>
-                                </tr>
+<table class="table table-sm" data-nk-container="table-responsive" style="font-size: 14px; white-space: nowrap;">
+    <thead class="table-light">
+        <tr>
+        <tr>
+                            <th class="tb-col">
+                                <span class="overline-title">Homestay</span>
+                            </th>
+                            <th class="tb-col">
+                                <span class="overline-title">Pax</span>
+                            </th>
+                            <th class="tb-col">
+                                <span class="overline-title">In</span>
+                            </th>
+                            <th class="tb-col">
+                                <span class="overline-title">Out</span>
+                            </th>
+                            <th class="tb-col">
+                                <span class="overline-title">Status</span>
+                            </th>
+                            <th class="tb-col">
+                                <span class="overline-title">Customer</span>
+                            </th>
+                            <th class="tb-col">
+                                <span class="overline-title">Price</span>
+                            </th>
+                            <th class="tb-col">
+                                <span class="overline-title">BBQ</span>
+                            </th>
+                            <th class="tb-col">
+                                <span class="overline-title">Receipt</span>
+                            </th>
+                            <th class="tb-col">
+                                <span class="overline-title">Update</span>
+                            </th>                                    
+                            <th class="tb-col" data-sortable="false">
+                                <span class="overline-title">Action</span>
+                            </th>                                </tr>
                             </thead>
                             <tbody id="booking-list">
                                 @foreach ($bookings as $key => $booking)
                                 <tr data-status="{{ $booking->booking_status }}">
-                                    <td>{{ ++$key }}</td>
-                                    <td>{{ $booking->Homestay->homestay_name ?? '-' }}</td>
-                                    <td>{{ $booking->booking_date ? \Carbon\Carbon::parse($booking->booking_date)->formatLocalized('%d %b %Y') : 'N/A' }}</td>
-                                    <td>RM {{ $booking->booking_total_price ?? '-' }}</td>
-                                    <td>
+                    <span>  <td>{{ $booking->Homestay->homestay_name ?? '-' }}</td></span>
+                            <td>{{ $booking->booking_guest_number ?? '-' }}</td>
+                            <td>{{ $booking->booking_check_in_date ? Carbon\Carbon::parse($booking->booking_check_in_date)->formatLocalized('%d %b %Y') : 'N/A' }}</td>
+                            <td>{{ $booking->booking_check_out_date ? Carbon\Carbon::parse($booking->booking_check_out_date)->formatLocalized('%d %b %Y') : 'N/A' }}</td>
+                            <td>
                                         @switch($booking->booking_status)
                                             @case('Confirmed')
                                                 <span class="badge rounded-pill bg-success">Confirmed</span>
@@ -94,15 +119,38 @@
                                         @endswitch
                                     </td>
                                     <td>{{ $booking->createdByUser->name ?? '-' }}</td>
-                                    <td>{{ $booking->updated_at ? \Carbon\Carbon::parse($booking->updated_at)->formatLocalized('%d %b %Y %I:%M:%S %p') : 'N/A' }}</td>
+                                    <td>RM {{ $booking->booking_total_price ?? '-' }}</td>
+                                    <td>
+                                        @if($booking->booking_is_bbq === 1)
+                                            <span class="text-success">
+                                                <i class="icon ni ni-check-circle"></i> <!-- Right icon -->
+                                            </span>
+                                        @elseif($booking->booking_is_bbq === 0)
+                                            <span class="text-danger">
+                                                <i class="icon ni ni-cross-circle"></i> <!-- Cross icon -->
+                                            </span>
+                                        @else
+                                            <span>-</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                    @if($booking->booking_receipt)
+                                        <a href="{{ route('download.receipt', $booking->id) }}" class="btn btn-info btn-sm">
+                                            <i class="bi bi-download"></i> Download
+                                        </a>
+                                    @else
+                                        <span class="text-muted">No receipt uploaded</span>
+                                    @endif
+                                    </td>                                    
+                                    <td>{{ $booking->updated_at ? Carbon\Carbon::parse($booking->updated_at)->formatLocalized('%d %b %Y %I:%M:%S %p') : 'N/A' }}</td>
                                     <td>
                                         @if($booking->booking_status != 'Cancelled')
-                                        <a class="btn btn-success" href="{{ url('editbookingAdmin', $booking->id) }}">Edit</a>
-                                        <a class="btn btn-info" href="{{ url('viewbookingadmin', $booking->id) }}">View</a>
+                                        <a class="btn btn-success btn-sm" href="{{ url('editbookingAdmin', $booking->id) }}">Update</a>
+                                        <a class="btn btn-info btn-sm" href="{{ url('viewbookingadmin', $booking->id) }}">View</a>
                                         {!! Form::open(['url' => ['deleteBookingadmin', $booking->id], 'method' => 'POST', 'class' => 'delete-form', 'style' => 'display:inline;']) !!}
                                             @csrf
                                             <input type="hidden" name="_method" value="DELETE">
-                                            {!! Form::submit('Delete', ['class' => 'btn btn-danger', 'onclick' => 'return confirm("Are you sure you want to Cancel this Booking?")']) !!}
+                                            {!! Form::submit('Cancel', ['class' => 'btn btn-danger btn-sm', 'onclick' => 'return confirm("Are you sure you want to Cancel this Booking?")']) !!}
                                         {!! Form::close() !!}
                                         @else
                                         -
@@ -127,7 +175,7 @@
 
             $('#booking-list tr').each(function () {
                 var rowStatus = ($(this).data('status') || "").toLowerCase();
-                var packageName = $(this).find('td:nth-child(2)').text().toLowerCase();
+                var packageName = $(this).find('td:nth-child(1)').text().toLowerCase();
                 var customerName = $(this).find('td:nth-child(6)').text().toLowerCase();
 
                 var matchesStatus = selectedStatus === "" || rowStatus === selectedStatus;

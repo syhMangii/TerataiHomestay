@@ -18,8 +18,16 @@
                                         <div class="nk-block-head">
                                             <div class="nk-block-head-between flex-wrap gap g-2 align-items-center">
                                                 <div class="nk-block-head-content">
-                                                    <div class="d-flex flex-column flex-md-row align-items-md-center">
-
+                                                @if ($errors->any())
+                                                        <div class="alert alert-danger">
+                                                            <ul>
+                                                                @foreach ($errors->all() as $error)
+                                                                    <li>{{ $error }}</li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </div>
+                                                    @endif
+                                                    <div class="d-flex flex-column flex-md-row align-items-md-center">                                                    
                                                         <div class="mt-3 mt-md-0 ms-md-3">
                                                             <h3 class="title mb-1" style="color:blue;"><u>CREATE NEW BOOKING</u></h3>
 
@@ -33,7 +41,7 @@
                                     </div><!-- .nk-block-head -->
                                 
 
-                                    {!! Form::open(array('url' => 'storeBooking','method'=>'POST')) !!}
+                                    {!! Form::open(['url' => 'storeBooking', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
                                     <div class="nk-block">
                                         <div class="card card-gutter-md">
                                             <div class="card-body">
@@ -60,7 +68,7 @@
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
-                                                                <label for="lastname" class="form-label">Price</label>
+                                                                <label for="lastname" class="form-label">Price per Night</label>
                                                                 <div class="form-control-wrap">
                                                                 <input type="number" step="0.01" class="form-control" id="homestay_price" name="homestay_price" readonly>
                                                                 </div>
@@ -93,21 +101,79 @@
                                                     <div class="row g-3">
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
-                                                                <label for="lastname" class="form-label">Booking Date</label>
+                                                                <label for="booking_check_in_date" class="form-label">Booking Check-In Date</label>
                                                                 <div class="form-control-wrap">
-                                                                <input type="date" class="form-control" id="booking_date" name="booking_date" required>
+                                                                <input type="date" class="form-control" id="booking_check_in_date" name="booking_check_in_date" required>
+                                                                </div>
+                                                            </div>  
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label for="booking_check_out_date" class="form-label">Booking Check-Out Date</label>
+                                                                    <div class="form-control-wrap">
+                                                                    <input type="date" class="form-control" id="booking_check_out_date" name="booking_check_out_date" required>
+                                                                    </div>
+                                                                </div>  
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label for="booking_guest_number" class="form-label">Guest Number</label>
+                                                                    <input 
+                                                                        type="number" 
+                                                                        class="form-control" 
+                                                                        id="booking_guest_number" 
+                                                                        name="booking_guest_number" 
+                                                                        min="1" 
+                                                                        max="10" 
+                                                                        value="1" 
+                                                                        required
+                                                                    >
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="col-lg-12">
-                                                            <div class="form-group">
-                                                                <label for="remarks" class="form-label">Booking Description</label>
-                                                                <div class="form-control-wrap">
-                                                                    <textarea class="form-control" maxlength="1000" rows="10" name="booking_description" id="booking_description" required></textarea>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                            <div class="col-lg-12">
+                                                                <div class="form-group form-check form-switch">
+                                                                    <!-- Hidden input to handle unchecked state -->
+                                                                    <input type="hidden" name="booking_is_bbq" value="0">
 
+                                                                    <!-- Checkbox -->
+                                                                    <input 
+                                                                        class="form-check-input" 
+                                                                        type="checkbox" 
+                                                                        id="booking_is_bbq" 
+                                                                        name="booking_is_bbq" 
+                                                                        value="1"
+                                                                    >
+                                                                    <label class="form-check-label" for="booking_is_bbq">Do you want BBQ?</label>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-lg-12">
+                                                                    <label for="basic-url" class="form-label">Make Payment Using the Following Details:</label>
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-text" id="basic-addon3">Bank Account Number</span>
+                                                                        <div class="form-control">1234567890</div>
+                                                                    </div>
+                                                                </div>                                                                                                                   
+
+                                                                <div class="col-lg-12">
+                                                                <div class="input-group">
+                                                                        <span class="input-group-text" id="basic-addon3">Bank</span>
+                                                                        <div class="form-control">Maybank</div>
+                                                                    </div>
+                                                                </div> 
+
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group mb-3">
+                                                                        <span class="input-group-text" id="basic-addon3">Owner Name</span>
+                                                                        <div class="form-control">John Doe</div>
+                                                                    </div>
+                                                                </div>                                                                
+                                                            <div class="col-lg-12">
+                                                            <label for="booking_receipt" class="form-label">Upload Payment Receipt</label>
+                                                                <div class="input-group mb-3">
+                                                                <input type="file" class="form-control" id="booking_receipt" name="booking_receipt">
+                                                                </div>
+                                                            </div> 
                                                         <div class="col-lg-12">
                                                             <button class="btn btn-primary" type="submit">Confirm Booking</button>
                                                             <a href="../homeusr" class="btn btn-danger" type="button">Cancel</a>

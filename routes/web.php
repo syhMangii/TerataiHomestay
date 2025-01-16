@@ -83,6 +83,7 @@ Route::middleware(['customer'])->group(function () {
     Route::post('sendReplyCustomer/{id}',[CustomerController::class, 'replyCustomer']);
     Route::get('profile',[CustomerController::class, 'profile']);
     Route::post('updProfile',[CustomerController::class, 'updProfile']);
+    Route::get('/booking/{id}/download-receipt', [CustomerController::class, 'downloadReceipt'])->name('download.receipt');
     
     });
 

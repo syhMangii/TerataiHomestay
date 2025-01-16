@@ -87,32 +87,59 @@
 
 
                                         <div class="nk-block">
-                                        <div class="card card-gutter-md">
-                                            <div class="card-body">
-                                                <div class="bio-block">
-                                                    <h4 class="bio-block-title mb-4" style="color:blue;"><u>2. BOOKING INFORMATION</u></h4>
-                                                    <div class="row g-3">
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group">
-                                                                <label for="lastname" class="form-label">Booking Date</label>
-                                                                <div class="form-control-wrap">
-                                                                <input type="date" class="form-control" id="booking_date" name="booking_date" value="{{ $booking->booking_date }}" disabled>
+                                            <div class="card card-gutter-md">
+                                                <div class="card-body">
+                                                    <div class="bio-block">
+                                                        <h4 class="bio-block-title mb-4" style="color:blue;"><u>2. BOOKING INFORMATION</u></h4>
+                                                        <div class="row g-3">
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label for="booking_check_in_date" class="form-label">Booking Check-In Date</label>
+                                                                    <div class="form-control-wrap">
+                                                                        <input type="date" class="form-control" id="booking_check_in_date" name="booking_check_in_date" value="{{ $booking->booking_check_in_date }}" disabled>
+                                                                    </div>
+                                                                </div>  
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label for="booking_check_out_date" class="form-label">Booking Check-Out Date</label>
+                                                                    <div class="form-control-wrap">
+                                                                        <input type="date" class="form-control" id="booking_check_out_date" name="booking_check_out_date" value="{{ $booking->booking_check_out_date }}" disabled>
+                                                                    </div>
+                                                                </div>  
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label for="booking_guest_number" class="form-label">Guest Number</label>
+                                                                    <input type="number" class="form-control" id="booking_guest_number" name="booking_guest_number" value="{{ $booking->booking_guest_number }}" disabled>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="col-lg-12">
-                                                            <div class="form-group">
-                                                                <label for="remarks" class="form-label">Booking Description</label>
-                                                                <div class="form-control-wrap">
-                                                                    <textarea class="form-control" maxlength="1000" rows="10" name="booking_description" id="booking_description" disabled>{{ $booking->booking_description }}</textarea>
+                                                            <div class="col-lg-12">
+                                                                <div class="form-group form-check form-switch">
+                                                                    <input class="form-check-input" type="checkbox" id="booking_is_bbq" {{ $booking->booking_is_bbq ? 'checked' : '' }} disabled>
+                                                                    <label class="form-check-label" for="booking_is_bbq">Do you want BBQ?</label>
                                                                 </div>
+                                                            </div>                                                            
+                                                            <div class="col-lg-12">
+                                                                            <label for="download" class="form-label">Uploaded Payment Receipt</label> <p>                                                                               
+                                                                                @if($booking->booking_receipt)
+                                                                                    <a href="{{ route('download.receipt', $booking->id) }}" class="btn btn-info">
+                                                                                        <i class="bi bi-download"></i> Download
+                                                                                    </a>
+                                                                                @else
+                                                                                    <span class="text-muted">No receipt uploaded</span>
+                                                                                @endif
                                                             </div>
+                                                            <div class="col-lg-12">
+                                        <a href="../homeusr" class="btn btn-danger">Back</a>
+                                    </div>
                                                         </div>
-
-                                                        <div class="col-lg-12">
-                                                          
-                                                            <a href="../homeusr" class="btn btn-danger" type="button">Cancel</a>
-                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {!! Form::close() !!}                                    
                                                     </div>
 
                                                     </div>

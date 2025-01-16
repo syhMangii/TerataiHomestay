@@ -67,6 +67,32 @@
                                             </div><!-- .form-group -->
                                         </div>
 
+                                         <!-- Optional Password Update -->
+        <div class="col-12">
+            <div class="form-group">
+                <label for="current_password" class="form-label">Current Password</label>
+                <div class="form-control-wrap">
+                    <input type="password" class="form-control" name="current_password" placeholder="Enter Current Password">
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group">
+                <label for="new_password" class="form-label">New Password</label>
+                <div class="form-control-wrap">
+                    <input type="password" class="form-control" name="new_password" placeholder="Enter New Password">
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group">
+                <label for="confirm_password" class="form-label">Confirm Password</label>
+                <div class="form-control-wrap">
+                    <input type="password" class="form-control" name="confirm_password" placeholder="Confirm New Password">
+                </div>
+            </div>
+        </div>
+
                                         <div class="col-12">
                                             <div class="d-grid">
                                                 <button class="btn btn-primary" type="submit">Update</button>

@@ -16,14 +16,14 @@
                 <div class="nk-block-head">
                     <div class="nk-block-head-between flex-wrap gap g-2">
                         <div class="nk-block-head-content">
-                            <h2 class="nk-block-title">Homestay List</h2>
+                            <h2 class="nk-block-title">Customer List</h2>
                         </div>
                         <div class="nk-block-head-content">
                             <ul class="d-flex">
                                 <li>
-                                    <a href="/createhomestays" class="btn btn-primary d-none d-md-inline-flex">
+                                    <a href="/createCustomer" class="btn btn-primary d-none d-md-inline-flex">
                                         <em class="icon ni ni-plus"></em>
-                                        <span>New Homestay</span>
+                                        <span>New Customer</span>
                                     </a>
                                 </li>
                             </ul>
@@ -50,13 +50,13 @@
                                 <span class="overline-title">No</span>
                             </th>
                             <th class="tb-col">
-                                <span class="overline-title">Homestay</span>
+                                <span class="overline-title">Name</span>
                             </th>
                             <th class="tb-col">
-                                <span class="overline-title">Price</span>
+                                <span class="overline-title">Username</span>
                             </th>
                             <th class="tb-col">
-                                <span class="overline-title">Update</span>
+                                <span class="overline-title">Phone</span>
                             </th>                                    
                             <th class="tb-col" data-sortable="false">
                                 <span class="overline-title">Action</span>
@@ -64,20 +64,19 @@
                         </tr>
                             </thead>
                             <tbody id="homestay-list">
-                                @foreach ($homestays as $key => $homestay)
+                                @foreach ($customers as $key => $cust)
                                     <tr>
                     <span>  
                     <td>{{ ++$key }}</td>
-        <td>{{ $homestay->homestay_name ?? '-' }}</td>
-        <td>RM {{ $homestay->homestay_price ?? '-' }}</td>
-        <td>{{ $homestay->updated_at ? Carbon\Carbon::parse($homestay->updated_at)->formatLocalized('%d %b %Y %I:%M:%S %p') : 'N/A' }}</td>
-   
+                    <td>{{ $cust->name ?? '-' }}</td>
+                                    <td>{{ $cust->username ?? '-' }}</td>
+                                    <td>{{ $cust->phone ?? '-' }}</td>
         <td 
         style="float:left;">
-                <a class="btn btn-success btn-sm" href="{{ url('edithomestays', $homestay->id) }}">Edit</a>
-                <a class="btn btn-info btn-sm" href="{{ url('viewhomestays', $homestay->id) }}">View</a>
-                {!! Form::open(['url' => ['deletehomestays', $homestay->id], 'method' => 'DELETE', 'class' => 'delete-form', 'style' => 'display:inline;']) !!}
-                    {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm', 'onclick' => 'return confirm("Are you sure you want to Delete this Homestay?")']) !!}
+        <a class="btn btn-success btn-sm" href="{{ url('editCustomer', $cust->id) }}">Edit</a>
+                <a class="btn btn-info btn-sm" href="{{ url('viewCustomer', $cust->id) }}">View</a>
+                {!! Form::open(['url' => ['deletecustomer', $cust->id], 'method' => 'DELETE', 'class' => 'delete-form', 'style' => 'display:inline;']) !!}
+                    {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm', 'onclick' => 'return confirm("Are you sure you want to Delete this Customer?")']) !!}
                 {!! Form::close() !!}
         </td>
                                 </tr>

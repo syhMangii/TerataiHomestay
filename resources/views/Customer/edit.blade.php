@@ -33,99 +33,153 @@
                                     </div><!-- .nk-block-head -->
                                 
 
-                                    {!! Form::model($booking, ['url' => ['updateBooking', $booking->id], 'method' => 'POST']) !!}
-                                                    @csrf
-                                    <div class="nk-block">
-                                        <div class="card card-gutter-md">
-                                            <div class="card-body">
-                                                <div class="bio-block">
-                                                    <h4 class="bio-block-title mb-4" style="color:blue;"><u>1. HOMESTAY INFORMATION</u></h4>
-                                                    <div class="row g-3">
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group">
-                                                                <label for="firstname" class="form-label">Homestay</label>
-                                                                <div class="form-control-wrap">
-                                                                    <select class="form-control" name="homestay_id" id="homestay_id" required>
-                                                                        <option value="" selected disabled>-- Select Homestay --</option>
-                                                                        @foreach($homestays as $homestay)
-                                                                        <option 
-                                                                        value="{{ $homestay->id }}"
-                                                                        data-price="{{ $homestay->homestay_price }}"
-                                                                        data-desc="{{ $homestay->homestay_details }}"
-                                                                        >{{ $homestay->homestay_name }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group">
-                                                                <label for="lastname" class="form-label">Price</label>
-                                                                <div class="form-control-wrap">
-                                                                <input type="number" step="0.01" class="form-control" id="homestay_price" name="homestay_price" readonly>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-12">
-                                                            <div class="form-group">
-                                                                <label for="remarks" class="form-label">Homestay Details</label>
-                                                                <div class="form-control-wrap">
-                                                                    <textarea class="form-control" maxlength="1000" rows="10" name="homestay_details" id="homestay_details" disabled></textarea>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                      
-                                                    </div>
-
-                                                    </div>
-
-                                                </div><!-- .bio-block -->
-                                            </div><!-- .card-body -->
-                                        </div><!-- .card -->
-
-
-                                        <div class="nk-block">
-                                        <div class="card card-gutter-md">
-                                            <div class="card-body">
-                                                <div class="bio-block">
-                                                    <h4 class="bio-block-title mb-4" style="color:blue;"><u>2. BOOKING INFORMATION</u></h4>
-                                                    <div class="row g-3">
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group">
-                                                                <label for="lastname" class="form-label">Booking Date</label>
-                                                                <div class="form-control-wrap">
-                                                                <input type="date" class="form-control" id="booking_date" name="booking_date" value="{{ $booking->booking_date }}" required>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-12">
-                                                            <div class="form-group">
-                                                                <label for="remarks" class="form-label">Booking Description</label>
-                                                                <div class="form-control-wrap">
-                                                                    <textarea class="form-control" maxlength="1000" rows="10" name="booking_description" id="booking_description" required>{{ $booking->booking_description }}</textarea>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-lg-12">
-                                                            <button class="btn btn-primary" type="submit">Update Booking</button>
-                                                            <a href="../homeusr" class="btn btn-danger" type="button">Cancel</a>
-                                                        </div>
-                                                    </div>
-
-                                                    </div>
-
-                                                </div><!-- .bio-block -->
-                                            </div><!-- .card-body -->
-                                        </div><!-- .card -->
-
-
-                                    </div><!-- .nk-block -->
-
-
                                     
-                                                    </form>
+                                                    {!! Form::model($booking, ['url' => ['updateBooking', $booking->id], 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                                                        @csrf
+                                                        <div class="nk-block">
+                                                            <div class="card card-gutter-md">
+                                                                <div class="card-body">
+                                                                    <div class="bio-block">
+                                                                        <h4 class="bio-block-title mb-4" style="color:blue;"><u>1. HOMESTAY INFORMATION</u></h4>
+                                                                        <div class="row g-3">
+                                                                            <div class="col-lg-6">
+                                                                                <div class="form-group">
+                                                                                    <label for="firstname" class="form-label">Homestay</label>
+                                                                                    <div class="form-control-wrap">
+                                                                                        <select class="form-control" name="homestay_id" id="homestay_id" required>
+                                                                                            <option value="" disabled>-- Select Homestay --</option>
+                                                                                            @foreach($homestays as $homestay)
+                                                                                            <option 
+                                                                                                value="{{ $homestay->id }}" 
+                                                                                                data-price="{{ $homestay->homestay_price }}" 
+                                                                                                data-desc="{{ $homestay->homestay_details }}"
+                                                                                                {{ $booking->homestay_id == $homestay->id ? 'selected' : '' }}
+                                                                                            >
+                                                                                                {{ $homestay->homestay_name }}
+                                                                                            </option>
+                                                                                            @endforeach
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-6">
+                                                                                <div class="form-group">
+                                                                                    <label for="lastname" class="form-label">Price</label>
+                                                                                    <div class="form-control-wrap">
+                                                                                        <input 
+                                                                                            type="number" 
+                                                                                            step="0.01" 
+                                                                                            class="form-control" 
+                                                                                            id="homestay_price" 
+                                                                                            name="homestay_price" 
+                                                                                            value="{{ $booking->homestay_price }}" 
+                                                                                            readonly>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-12">
+                                                                                <div class="form-group">
+                                                                                    <label for="remarks" class="form-label">Homestay Details</label>
+                                                                                    <div class="form-control-wrap">
+                                                                                        <textarea 
+                                                                                            class="form-control" 
+                                                                                            maxlength="1000" 
+                                                                                            rows="10" 
+                                                                                            name="homestay_details" 
+                                                                                            id="homestay_details" 
+                                                                                            disabled>{{ $booking->homestay_details }}</textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="nk-block">
+                                                            <div class="card card-gutter-md">
+                                                                <div class="card-body">
+                                                                    <div class="bio-block">
+                                                                        <h4 class="bio-block-title mb-4" style="color:blue;"><u>2. BOOKING INFORMATION</u></h4>
+                                                                        <div class="row g-3">
+                                                                            <div class="col-lg-6">
+                                                                                <div class="form-group">
+                                                                                    <label for="booking_check_in_date" class="form-label">Booking Check-In Date</label>
+                                                                                    <input 
+                                                                                        type="date" 
+                                                                                        class="form-control" 
+                                                                                        id="booking_check_in_date" 
+                                                                                        name="booking_check_in_date" 
+                                                                                        value="{{ $booking->booking_check_in_date }}" 
+                                                                                        required>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-6">
+                                                                                <div class="form-group">
+                                                                                    <label for="booking_check_out_date" class="form-label">Booking Check-Out Date</label>
+                                                                                    <input 
+                                                                                        type="date" 
+                                                                                        class="form-control" 
+                                                                                        id="booking_check_out_date" 
+                                                                                        name="booking_check_out_date" 
+                                                                                        value="{{ $booking->booking_check_out_date }}" 
+                                                                                        required>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-6">
+                                                                                <div class="form-group">
+                                                                                    <label for="booking_guest_number" class="form-label">Guest Number</label>
+                                                                                    <input 
+                                                                                        type="number" 
+                                                                                        class="form-control" 
+                                                                                        id="booking_guest_number" 
+                                                                                        name="booking_guest_number" 
+                                                                                        min="1" 
+                                                                                        max="10" 
+                                                                                        value="{{ $booking->booking_guest_number }}" 
+                                                                                        required>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-12">
+                                                                                <div class="form-group form-check form-switch">
+                                                                                    <input type="hidden" name="booking_is_bbq" value="0">
+                                                                                    <input 
+                                                                                        class="form-check-input" 
+                                                                                        type="checkbox" 
+                                                                                        id="booking_is_bbq" 
+                                                                                        name="booking_is_bbq" 
+                                                                                        value="1" 
+                                                                                        {{ $booking->booking_is_bbq ? 'checked' : '' }}>
+                                                                                    <label class="form-check-label" for="booking_is_bbq">Do you want BBQ?</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-6">
+                                                                                <label for="booking_receipt" class="form-label">Upload Payment Receipt</label>
+                                                                                <div class="input-group mb-3">
+                                                                                    <input type="file" class="form-control" id="booking_receipt" name="booking_receipt">
+                                                                                </div>                                                                            
+                                                                            </div>
+                                                                            <div class="col-lg-6">
+                                                                            <label for="download" class="form-label">Uploaded Payment Receipt</label> <p>                                                                               
+                                                                                @if($booking->booking_receipt)
+                                                                                    <a href="{{ route('download.receipt', $booking->id) }}" class="btn btn-info">
+                                                                                        <i class="bi bi-download"></i> Download
+                                                                                    </a>
+                                                                                @else
+                                                                                    <span class="text-muted">No receipt uploaded</span>
+                                                                                @endif
+                                                                            </div>
+                                                                            <div class="col-lg-12">
+                                                                                <button class="btn btn-primary" type="submit">Update Booking</button>
+                                                                                <a href="../homeusr" class="btn btn-danger" type="button">Cancel</a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        {!! Form::close() !!}
                                                 </div><!-- .bio-block -->
                                             </div><!-- .card-body -->
                                         </div><!-- .card -->
