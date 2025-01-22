@@ -84,6 +84,7 @@
           <li class="nav-item"><a href="#hero" class="nav-link active">Home</a></li>
           <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
           <li class="nav-item"><a href="#catalog" class="nav-link">Catalog</a></li>
+          <li class="nav-item"><a href="#gallery" class="nav-link">Gallery</a></li>
           <li class="nav-item"><a href="#contact" class="nav-link">Contact Us</a></li>
           <li class="nav-item"><a href="/faq" target="_blank" class="nav-link">FAQ</a></li>
         </ul>
@@ -141,7 +142,7 @@
 <!-- Catalog Section -->
 <section id="catalog" class="catalog section py-5">
   <div class="container">
-    <h2 class="text-center mb-4">Room Catalog</h2>
+    <h2 class="text-center mb-4">Homestay Catalog</h2>
     <div class="row">
       <!-- Chalet Triangle -->
       <div class="col-md-4 mb-4">
@@ -150,9 +151,12 @@
           <div class="card-body">
             <h5 class="card-title">Chalet Triangle</h5>
             <p class="card-text">
-              Queen bed, single bed, air-cond, iron & Iron Board, heater. <br>
-              - No Cooking Allowed<br>
-              - OKU Friendly
+            👤Max Capacity 5 People<br>
+            🛏️Queen Bed and Single Bed<br>
+            ❄️ Air-cond<br>
+            🛁 Bathroom<br>
+            ⛔No Cooking Allowed<br>
+            ♿OKU Friendly
             </p>
             <div class="d-flex justify-content-between align-items-center">
               <span class="price">RM 250 / night</span>
@@ -167,8 +171,13 @@
           <div class="card-body">
             <h5 class="card-title">Homestay 2 Rooms</h5>
             <p class="card-text">
-              Queen bed, air-cond, fan, basic kitchen utensils. <br>
-              Parking for 2 cars, pool view.
+            👤Max Capacity 10 People<br>
+            🛏️Queen Bed and Single Bed<br>
+            ❄️ Air-cond<br>
+            🛁 Bathroom<br>
+            🅿️ Parking for 2 cars<br>
+            🪟 Pool View<br>
+            🧑‍🍳 Cooking Allowed
             </p>
             <div class="d-flex justify-content-between align-items-center">
               <span class="price">RM 300 / night</span>
@@ -183,9 +192,13 @@
           <div class="card-body">
             <h5 class="card-title">Homestay 3 Rooms</h5>
             <p class="card-text">
-              (Aircond in master bedroom)<br>
-              Queen bed, single bed, air-cond, BBQ area. <br>
-              Separate bathroom, field for activities.
+            👤Max Capacity 15 People<br>
+            🛏️Queen Bed and Single Bed<br>
+            ❄️ Air-cond<br>
+            🛁 2 Bathroom<br>
+            🅿️ Parking for 2 cars<br>
+            🪟 Field View<br>
+            🧑‍🍳 Cooking Allowed
             </p>
             <div class="d-flex justify-content-between align-items-center">
               <span class="price">RM 450 / night</span>
@@ -196,13 +209,22 @@
       <!-- Homestay 3 Rooms (Aircond in Living Room) -->
       <div class="col-md-4 mb-4">
         <div class="card h-100">
-          <img src="3roomsliving.jpg" class="card-img-top" alt="Homestay 3 Rooms">
+          <img src="family6.png" class="card-img-top" alt="Homestay 3 Rooms">
           <div class="card-body">
-            <h5 class="card-title">Homestay 3 Rooms</h5>
+            <h5 class="card-title">Family Day Package</h5>
             <p class="card-text">
-              (Aircond in living room)<br>
-              Queen bed, single bed, air-cond, kitchen, BBQ set. <br>
-              Large common area, parking for 2 cars.
+            👤Max Capacity : 50-130 People<br>
+            🏠Book All Homestay : <br>
+            🛖Chalet Triangle 7 Unit<br>
+            🏠Homestay 2 Room 2 Unit<br>
+            🏠Homestay 3 Room 6 Unit<br><br>
+
+            Facilities :<br>
+            ⛳Sports field <br> 
+            🏀Sports equipment <br> 
+            🚴Bicycles <br> 
+            🕌Prayer room (Surau)  <br>
+            ♨️BBQ equipment, tables, and chairs
             </p>
             <div class="d-flex justify-content-between align-items-center">
               <span class="price">RM 450 / night</span>
@@ -210,26 +232,61 @@
           </div>
         </div>
       </div>
-      <!-- Family Day Package -->
-      <div class="col-md-4 mb-4">
-        <div class="card h-100">
-          <img src="3rooms.jpg" class="card-img-top" alt="Family Day Package">
-          <div class="card-body">
-            <h5 class="card-title">Family Day Package</h5>
-            <p class="card-text">
-              All the facilities<br>
-              Limited pool use till 9 PM, includes BBQ facilities.
-            </p>
-            <div class="d-flex justify-content-between align-items-center">
-              <span class="price">RM 2600 / night</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      
+</div>
+
     </div>
   </div>
 </section>
 <!-- End Catalog Section -->
+
+<!-- Gallery Section -->
+<section id="gallery" class="gallery section py-5">
+<h2 class="text-center mb-4">Gallery</h2>
+
+  <div class="container d-flex justify-content-center">
+
+    <!-- Gallery Carousel -->
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" style="max-width: 800px; width: 100%; height: 400px;">
+
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 5"></button>
+      </div>
+
+      <div class="carousel-inner">
+      <div class="carousel-item active">
+          <img src="family8.png" class="d-block w-100 h-100" alt="Family Day Package" style="object-fit: cover;">
+        </div>
+      <div class="carousel-item">
+          <img src="family1.jpg" class="d-block w-100 h-100" alt="Family Day Package" style="object-fit: cover;">
+        </div>
+        <div class="carousel-item">
+          <img src="family3.jpeg" class="d-block w-100 h-100" alt="Family Day Package" style="object-fit: cover;">
+        </div>
+        <div class="carousel-item">
+          <img src="family4.png" class="d-block w-100 h-100" alt="Family Day Package" style="object-fit: cover;">
+        </div>
+        <div class="carousel-item">
+          <img src="family7.png" class="d-block w-100 h-100" alt="Family Day Package" style="object-fit: cover;">
+        </div>
+      </div>
+
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+</section>
+
 
 
     <!-- Contact Section -->
