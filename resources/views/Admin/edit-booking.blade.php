@@ -109,6 +109,22 @@
                                                                     <div class="bio-block">
                                                                         <h4 class="bio-block-title mb-4" style="color:blue;"><u>2. BOOKING INFORMATION</u></h4>
                                                                         <div class="row g-3">
+                                                                        <div class="col-lg-6">
+                                                                            <div class="form-group">
+                                                                                <label for="booking_status" class="form-label">Booking Status</label>
+                                                                                <div class="form-control-wrap">
+                                                                                    <select class="form-select" name="booking_status" id="booking_status" required>
+                                                                                        <option value="" selected>-- Select Status --</option>
+                                                                                        <option value="Confirmed" {{ $booking->booking_status == 'Confirmed' ? 'selected' : '' }}>Confirmed</option>
+                                                                                        <option value="Incoming" {{ $booking->booking_status == 'Incoming' ? 'selected' : '' }}>Incoming</option>
+                                                                                        <option value="Check-in" {{ $booking->booking_status == 'Check-in' ? 'selected' : '' }}>Check-in</option>
+                                                                                        <option value="Check-out" {{ $booking->booking_status == 'Check-out' ? 'selected' : '' }}>Check-out</option>
+                                                                                        <option value="Cancelled" {{ $booking->booking_status == 'Cancelled' ? 'selected' : '' }}>Cancelled</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
                                                                             <div class="col-lg-6">
                                                                                 <div class="form-group">
                                                                                     <label for="booking_check_in_date" class="form-label">Booking Check-In Date</label>

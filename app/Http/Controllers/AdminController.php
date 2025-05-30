@@ -168,56 +168,57 @@ class AdminController extends Controller
 
 
     public function update(Request $request, $id)
-    {
-        // Validate inputs
-        $validatedData = $request->validate([
-            'homestay_id' => 'required|exists:homestays,id',
-            'booking_check_in_date' => 'required|date',
-            'booking_check_out_date' => 'required|date|after:booking_check_in_date',
-            'booking_guest_number' => 'required|integer|min:1|max:10',
-            'booking_is_bbq' => 'required|boolean',
-            'homestay_price' => 'required|numeric|min:0',
-            'booking_receipt' => 'nullable|file|mimes:jpeg,png,pdf|max:2048', // Receipt is optional but must be a valid file
-        ]);
-    
-        // Retrieve the existing booking
-        $booking = Booking::findOrFail($id);
-    
-        // Calculate booking duration
-        $checkInDate = Carbon::parse($validatedData['booking_check_in_date']);
-        $checkOutDate = Carbon::parse($validatedData['booking_check_out_date']);
-        $nights = $checkInDate->diffInDays($checkOutDate);
-    
-        // Calculate total price
-        $totalPrice = $nights * $validatedData['homestay_price'];
-    
-        // Handle file upload if receipt is provided
-        if ($request->hasFile('booking_receipt')) {
-            // Delete old receipt if exists
-            if ($booking->booking_receipt && Storage::exists('public/' . $booking->booking_receipt)) {
-                Storage::delete('public/' . $booking->booking_receipt);
-            }
-    
-            // Store new receipt
-            $receiptPath = $request->file('booking_receipt')->store('receipts', 'public');
-            $booking->booking_receipt = $receiptPath;
-        }
-    
-        // Update booking details
-        $booking->homestay_id = $validatedData['homestay_id'];
-        $booking->booking_check_in_date = $validatedData['booking_check_in_date'];
-        $booking->booking_check_out_date = $validatedData['booking_check_out_date'];
-        $booking->booking_guest_number = $validatedData['booking_guest_number'];
-        $booking->booking_is_bbq = $validatedData['booking_is_bbq'];
-        $booking->booking_total_price = $totalPrice;
-        $booking->booking_status = 'Confirmed';
-        $booking->updated_by = auth()->user()->id;
-        $booking->updated_at = Carbon::now();
-        $booking->save();
-    
+{
+    // Validate inputs
+    $validatedData = $request->validate([
+        'homestay_id' => 'required|exists:homestays,id',
+        'booking_check_in_date' => 'required|date',
+        'booking_check_out_date' => 'required|date|after:booking_check_in_date',
+        'booking_guest_number' => 'required|integer|min:1|max:10',
+        'booking_is_bbq' => 'required|boolean',
+        'homestay_price' => 'required|numeric|min:0',
+        'booking_status' => 'required|string|in:Confirmed,Incoming,Check-in,Check-out,Cancelled', // Validate status
+        'booking_receipt' => 'nullable|file|mimes:jpeg,png,pdf|max:2048', // Receipt is optional but must be a valid file
+    ]);
 
-        return redirect('bookinglist')->with('success', 'Booking has been updated!');
+    // Retrieve the existing booking
+    $booking = Booking::findOrFail($id);
+
+    // Calculate booking duration
+    $checkInDate = Carbon::parse($validatedData['booking_check_in_date']);
+    $checkOutDate = Carbon::parse($validatedData['booking_check_out_date']);
+    $nights = $checkInDate->diffInDays($checkOutDate);
+
+    // Calculate total price
+    $totalPrice = $nights * $validatedData['homestay_price'];
+
+    // Handle file upload if receipt is provided
+    if ($request->hasFile('booking_receipt')) {
+        // Delete old receipt if exists
+        if ($booking->booking_receipt && Storage::exists('public/' . $booking->booking_receipt)) {
+            Storage::delete('public/' . $booking->booking_receipt);
+        }
+
+        // Store new receipt
+        $receiptPath = $request->file('booking_receipt')->store('receipts', 'public');
+        $booking->booking_receipt = $receiptPath;
     }
+
+    // Update booking details
+    $booking->homestay_id = $validatedData['homestay_id'];
+    $booking->booking_status = $validatedData['booking_status']; // Use provided status
+    $booking->booking_check_in_date = $validatedData['booking_check_in_date'];
+    $booking->booking_check_out_date = $validatedData['booking_check_out_date'];
+    $booking->booking_guest_number = $validatedData['booking_guest_number'];
+    $booking->booking_is_bbq = $validatedData['booking_is_bbq'];
+    $booking->booking_total_price = $totalPrice;
+    $booking->updated_by = auth()->user()->id;
+    $booking->updated_at = Carbon::now();
+    $booking->save();
+
+    return redirect('bookinglist')->with('success', 'Booking has been updated!');
+}
+
 
     public function updateCustomer(Request $request, $id)
     {
