@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Booking;
 use App\Models\chats;
-use App\Models\homestays;
+use App\Models\CheckIn;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -15,18 +15,19 @@ class AdminController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        return view('Admin.index');
+    public function indexPatients() {
+        $users = User::where('role', '!=', 'admin')->get(); // Exclude admin if needed
+        return view('Admin.manage-patients', compact('users'));
     }
-
-    public function bookings()
+    
+    public function viewCheckins($id)
     {
-        $bookings = Booking::withTrashed()->latest()->get();
-
-        return view('Admin.bookings',compact('bookings'));
+        $user = User::findOrFail($id);
+        $checkins = CheckIn::where('user_id', $id)->orderByDesc('date')->get();
+    
+        return view('Admin.checkins', compact('user', 'checkins'));
     }
-
+    
     
 
     public function createBooking()

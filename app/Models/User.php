@@ -19,9 +19,45 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
+        'phone',
+        'role',
         'password',
+        'school_id',
+        'clinic_id',
+        'is_read',
     ];
+
+    public function school()
+    {
+        return $this->belongsTo(School::class);
+    }
+
+    public function clinic()
+    {
+        return $this->belongsTo(Clinic::class);
+    }
+
+    public function quitDates()
+    {
+        return $this->hasMany(QuitDate::class);
+    }
+
+    public function scoreHistories()
+    {
+        return $this->hasMany(ScoreHistory::class);
+    }
+
+    public function checkIns()
+    {
+        return $this->hasManyThrough(CheckIn::class, ScoreHistory::class);
+    }
+
+    public function streaks()
+    {
+        return $this->hasManyThrough(Streak::class, ScoreHistory::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.

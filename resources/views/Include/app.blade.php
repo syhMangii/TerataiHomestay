@@ -7,12 +7,17 @@
     <meta name="author" content="Softnio">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Multi-purpose admin dashboard template that especially build for programmers.">
-	<title>Teratai Anggun Sepintas Homestay</title>
-    <link rel="icon" type="image/x-icon" href="logo.png">
+	<title>KKM Daily Wellness Tracker</title>
+    <link rel="icon" type="image/x-icon" href="logokkm.jpeg">
     <link rel="stylesheet" href="./assets/css/style.css?v1.1.1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
 </head>
 
-<body class="nk-body" data-sidebar-collapse="lg" data-navbar-collapse="lg">
+<body class="nk-body" data-sidebar-collapse="lg" data-navbar-collapse="lg" >
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <!-- Root @s -->
     <div class="nk-app-root">
         <!-- main @s -->
@@ -22,48 +27,61 @@
                     <div class="nk-sidebar-brand">
                       
                     <div class="logo-wrap" style="margin-bottom: 20px;">
-                                    <img style="width:80px; height:80px;" class="logo-img logo-light" src="logo.png" srcset="logo.png 2x"  alt="">
-                                        <img style="width:80px; height:80px;" class="logo-img logo-dark" src="logo.png" srcset="logo.png 2x" alt="">
-                                        <img style="width:80px; height:80px;" class="logo-img logo-icon" src="logo.png" srcset="logo.png 2x" alt="">
+                                    <img style="width:80px; height:80px;" class="logo-img logo-light" src="logokkm.jpeg" srcset="logokkm.jpeg 2x"  alt="">
+                                        <img style="width:80px; height:80px;" class="logo-img logo-dark" src="logokkm.jpeg" srcset="logokkm.jpeg 2x" alt="">
+                                        <img style="width:80px; height:80px;" class="logo-img logo-icon" src="logokkm.jpeg" srcset="logokkm.jpeg 2x" alt="">
                                     </div>
                         
                       
                     </div><!-- end nk-sidebar-brand -->
+                    <br>
                 </div><!-- end nk-sidebar-element -->
+                <br>
                 <div class="nk-sidebar-element nk-sidebar-body">
                     <div class="nk-sidebar-content">
                         <div class="nk-sidebar-menu" data-simplebar>
                             <ul class="nk-menu">
                          
 
-                               
-                           
-                                <li class="nk-menu-item">
-                                    <a href="/homeusr" class="nk-menu-link">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-calender-date-fill"></em></span>
-                                        <span class="nk-menu-text">My Booking</span>
+                            <li class="nk-menu-item">
+                                    <a href="/checkin/create" class="nk-menu-link">
+                                    <span class="nk-menu-icon"><em class="icon ni ni-user-circle-fill"></em></span>
+                                        <span class="nk-menu-text">Daily Check-In</span>
                                     </a>
                                 </li>
                                 <li class="nk-menu-item">
-                                    <a href="/custsupport" class="nk-menu-link" target="_blank">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-chat"></em></span>
-                                        <span class="nk-menu-text">Live Chat</span>
-                                    </a>
-                                </li>
+        <a href="/aboutus" class="nk-menu-link">
+            <span class="nk-menu-icon"><em class="bi bi-heart-pulse-fill"></em></span>
 
-                                
-                                <li class="nk-menu-item">
-                                    <a href="/faq" class="nk-menu-link" target="_blank">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-reddit-round"></em></span>
-                                        <span class="nk-menu-text">FAQ</span>
+            <span class="nk-menu-text">About Us</span>
+        </a>
+    </li>
+                                <!-- <li class="nk-menu-item">
+                                    <a href="/checkin/history" class="nk-menu-link">
+                                    <span class="nk-menu-icon"><em class="icon ni ni-calender-date-fill"></em></span>
+                                    <span class="nk-menu-text">History</span>
                                     </a>
-                                </li>
+                                </li> -->
                                 <li class="nk-menu-item">
-                                    <a href="/profile" class="nk-menu-link">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-user-circle-fill"></em></span>
-                                        <span class="nk-menu-text">My Profile</span>
-                                    </a>
-                                </li>
+        <a href="/badges" class="nk-menu-link">
+            <span class="nk-menu-icon"><em class="bi bi-gift-fill"></em></span>
+
+            <span class="nk-menu-text">Badge Collection</span>
+        </a>
+    </li>
+    <li class="nk-menu-item">
+    <a href="/flipchart" class="nk-menu-link">
+        <span class="nk-menu-icon"><em class="bi bi-journal-medical"></em></span>
+        <span class="nk-menu-text">Flipchart</span>
+    </a>
+</li>
+
+    <li class="nk-menu-item">
+        <a href="/signout" class="nk-menu-link">
+            <span class="nk-menu-icon"><em class="icon ni ni-signout"></em></span>
+            <span class="nk-menu-text">Sign Out</span>
+        </a>
+    </li>
                                
                            
                             </ul><!-- .nk-menu -->
@@ -78,19 +96,17 @@
                     <div class="container-fluid">
                         <div class="nk-header-wrap">
                             <div class="nk-header-logo ms-n1">
-                                <div class="nk-sidebar-toggle">
-                                    <button class="btn btn-sm btn-icon btn-zoom sidebar-toggle d-sm-none"><em class="icon ni ni-menu"></em></button>
-                                    <button class="btn btn-md btn-icon btn-zoom sidebar-toggle d-none d-sm-inline-flex"><em class="icon ni ni-menu"></em></button>
-                                </div>
-                                <div class="nk-navbar-toggle me-2">
-                                    <button class="btn btn-sm btn-icon btn-zoom navbar-toggle d-sm-none"><em class="icon ni ni-menu-right"></em></button>
-                                    <button class="btn btn-md btn-icon btn-zoom navbar-toggle d-none d-sm-inline-flex"><em class="icon ni ni-menu-right"></em></button>
-                                </div>
-                                <a href="#" class="logo-link">
+                            <div class="nk-sidebar-toggle">
+    <button style="color: white;" class="btn btn-sm btn-icon sidebar-toggle d-sm-none"><em class="icon ni ni-menu"></em></button>
+    <button style="color: white;" class="btn btn-md btn-icon sidebar-toggle d-none d-sm-inline-flex"><em class="icon ni ni-menu"></em></button>
+</div>
+
+                               
+                                <a  href="/checkin/create" class="logo-link">
                                     <div class="logo-wrap">
-                                        <img class="logo-img logo-light" src="logo.png" srcset="logo.png 2x" alt="">
-                                        <img class="logo-img logo-dark" src="logo.png" srcset="logo.png 2x" alt="">
-                                        <img class="logo-img logo-icon" src="logo.png" srcset="logo.png 2x" alt="">
+                                        <img class="logo-img logo-light" src="logokkm.jpeg" srcset="logokkm.jpeg 2x" alt="">
+                                        <img class="logo-img logo-dark" src="logokkm.jpeg" srcset="logokkm.jpeg 2x" alt="">
+                                        <img class="logo-img logo-icon" src="logokkm.jpeg" srcset="logokkm.jpeg 2x" alt="">
                                     </div>
                                 </a>
                             </div>
@@ -100,26 +116,26 @@
                             <div class="nk-header-tools">
                                 <ul class="nk-quick-nav ms-2">
                                   
-                                    <li>
+                                    <li >
                                        Hi <b style="color:coral;">{{auth()->user()->username}}</b> !
                                     </li>
                                     <li class="dropdown">
                                         <a href="#" data-bs-toggle="dropdown">
                                             <div class="d-sm-none">
                                                 <div class="media media-md media-circle">
-                                                    <img src="logo.png" alt="" class="img-thumbnail">
+                                                    <img src="user.png" alt="" class="img-thumbnail">
                                                 </div>
                                             </div>
                                             <div class="d-none d-sm-block">
                                                 <div class="media media-circle">
-                                                    <img src="logo.png" alt="" class="img-thumbnail">
+                                                    <img src="user.png" alt="" class="img-thumbnail">
                                                 </div>
                                             </div>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-md">
                                             <div class="dropdown-content dropdown-content-x-lg py-3 border-bottom border-light">
                                                 <div class="media-group">
-                                                    <div class="media media-xl media-middle media-circle"><img src="logo.png" alt="" class="img-thumbnail"></div>
+                                                    <div class="media media-xl media-middle media-circle"><img src="logokkm.jpeg" alt="" class="img-thumbnail"></div>
                                                     <div class="media-text">
                                                         <div class="lead-text">{{auth()->user()->username}}</div>
                                                         <span class="sub-text">{{auth()->user()->role}}</span>
@@ -142,4 +158,5 @@
                         </div><!-- .nk-header-wrap -->
                     </div><!-- .container-fliud -->
                 </div>
+
                 <!-- header -->

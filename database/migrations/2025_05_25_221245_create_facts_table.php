@@ -11,10 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('faqs', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+Schema::create('facts', function (Blueprint $table) {
+    $table->id();
+    $table->string('image_file');
+    $table->unsignedTinyInteger('turn'); // 1 to 7 enforced via validation
+    $table->foreignId('added_by')->constrained('users')->onDelete('cascade');
+    $table->timestamps();
+});
+
     }
 
     /**
@@ -22,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('faqs');
+        Schema::dropIfExists('facts');
     }
 };

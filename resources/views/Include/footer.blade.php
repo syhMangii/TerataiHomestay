@@ -2,7 +2,7 @@
  <div class="nk-footer">
                     <div class="container-fluid">
                         <div class="nk-footer-wrap">
-                            <div class="nk-footer-copyright"> &copy; 2025 Teratai Anggun Sepintas Homestay</a>
+                            <div class="nk-footer-copyright"> &copy; 2025 KKM</a>
                             </div>
               
                         </div>

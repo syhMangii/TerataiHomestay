@@ -35,7 +35,7 @@ class AuthController extends Controller
             if(Hash::check($request->input('password'), $user->password)){
                 auth()->login($user);
 
-                return redirect()->to('/homeusr');
+                return redirect()->to('/checkin/create');
             }
             else{
                 return redirect()->back()->with('error', 'The Email or Password is incorrect, Please try again');
@@ -58,7 +58,7 @@ class AuthController extends Controller
             if(Hash::check($request->input('password'), $user->password)){
                 auth()->login($user);
 
-                return redirect()->to('/homestays');
+                return redirect()->to('/dashboard');
             }
             else{
                 return redirect()->back()->with('error', 'The Email or Password is incorrect, Please try again');
