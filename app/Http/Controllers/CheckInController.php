@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Controllers\BadgeController;
 
 use Illuminate\Http\Request;
 use App\Models\CheckIn;
 use App\Models\ScoreHistory;
+use App\Models\Badge;
 use App\Models\Streak;
 use App\Models\QuitDate;
 use Carbon\Carbon;
@@ -63,6 +65,7 @@ class CheckInController extends Controller
     ->orderByDesc('created_at') // count from latest to oldest
     ->get();
 
+    //count continous checkins
     if ($checkIns->isNotEmpty()) {
     $count = 0;
 
@@ -88,6 +91,10 @@ class CheckInController extends Controller
 
     $circularWaveShift = $shiftSteps[$wavePartition];
 
+    // === Badge check ===
+    $badgeController = new BadgeController();
+    $newBadges = $badgeController->checkAndAwardBadges();
+
     return view('checkin.create', compact(
         'checkinScore',
         'streakScore',
@@ -98,8 +105,9 @@ class CheckInController extends Controller
         'hasCheckedInToday',
         'streakCount',
         'activeQuitDate',
-        'showFlipchartAlert'
-    ));
+        'showFlipchartAlert',
+        'newBadges'
+        ));
 }
 
 public function store(Request $request)
@@ -135,7 +143,7 @@ public function store(Request $request)
 
         // If NOT yesterday = streak broken
         if (!$latestDate->eq($yesterday)) {
-            // ❌ BREAK continuity of old record BEFORE creating new one
+            // BREAK continuity of old record BEFORE creating new one
             $latestCheckIn->update(['is_continous' => false]);
 
             // Reset
@@ -247,11 +255,15 @@ public function store(Request $request)
     return response()->json(['message' => 'Check-in recorded successfully.']);
 }
 
-
-
-public function badge()
+public function badges()
 {
-    return view('checkin.badges');
+    $user = Auth::user();
+    $badges = Badge::all(); // Get all badges
+
+    return view('checkin.badges', [
+        'badges' => $badges,
+        'user' => $user,
+    ]);
 }
 
 public function aboutus()

@@ -59,6 +59,12 @@ class User extends Authenticatable
         return $this->hasManyThrough(Streak::class, ScoreHistory::class);
     }
 
+    public function badges()
+    {
+        return $this->belongsToMany(Badge::class)->withTimestamps();
+    }
+
+
     /**
      * The attributes that should be hidden for serialization.
      *

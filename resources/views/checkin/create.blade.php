@@ -47,6 +47,33 @@ document.addEventListener("DOMContentLoaded", function () {
         margin: 0;
     }
 </style>
+@if(session('new_badges'))
+    <!-- Badge Earned Modal -->
+    <div class="modal fade" id="badgeEarnedModal" tabindex="-1" aria-labelledby="badgeEarnedLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-success">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="badgeEarnedLabel">🎉 Badge Unlocked!</h5>
+                </div>
+                <div class="modal-body text-center text-black">
+                    <p class="mb-3">You’ve earned the following badge{{ count(session('new_badges')) > 1 ? 's' : '' }}:</p>
+                    <div class="d-flex flex-wrap justify-content-center gap-4">
+                        @foreach(session('new_badges') as $badge)
+                            <div class="text-center" style="max-width: 150px;">
+                                <img src="{{ asset('badges/c/' . $badge->image_name) }}" alt="{{ $badge->name }}" class="img-thumbnail" style="width: 80px; height: 80px;">
+                                <p class="mt-2 fw-bold mb-1 text-black">{{ $badge->name }}</p>
+                                <small class="text-muted d-block">{{ $badge->description }}</small>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Awesome!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
 
 <hr>
 <div class="nk-content">
@@ -185,7 +212,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     <!-- MOTIVATION TEXT OVERLAY -->
                     <div class="position-absolute top-50 start-50 translate-middle text-white text-center" style="z-index: 2;">
-                        @if ($wavePartition === 0)
+                        <!-- @if ($wavePartition === 0)
                             <p class="card-text fs-7">Start your transformation now!</p>
                         @elseif ($wavePartition <= 1)
                             <p class="card-text fs-7">Great start! Keep going!</p>
@@ -201,7 +228,66 @@ document.addEventListener("DOMContentLoaded", function () {
                             <p class="card-text fs-7">Almost there!</p>
                         @else
                             <p class="card-text fs-7">So proud of how far you've become!</p>
-                        @endif
+                        @endif -->
+                        @php
+                                $cycle = $streakCount; // number of full 7-day cycles
+                                $day = $wavePartition; // day within current cycle (1-7)
+                        @ endphp
+
+                            @if ($cycle == 0)
+                                {{-- First 7-day wave --}}
+                                @switch($day)
+                                    @case(0)
+                                        <p class="card-text fs-7">Start your transformation now!</p>
+                                        @break
+                                    @case(1)
+                                        <p class="card-text fs-7">Great start! Keep going!</p>
+                                        @break
+                                    @case(2)
+                                        <p class="card-text fs-7">You're doing well!</p>
+                                        @break
+                                    @case(3)
+                                        <p class="card-text fs-7">Halfway there!</p>
+                                        @break
+                                    @case(4)
+                                    @case(5)
+                                    @case(6)
+                                        <p class="card-text fs-7">Almost there!</p>
+                                        @break
+                                    @case(7)
+                                        <p class="card-text fs-7">So proud of how far you've come!</p>
+                                        @break
+                                @endswitch
+                            @elseif ($cycle == 1)
+                                {{-- Second wave --}}
+                                @switch($day)
+                                    @case(0)
+                                        <p class="card-text fs-7">Back for round two! You’re on fire!</p>
+                                        @break
+                                    @case(1)
+                                        <p class="card-text fs-7">You’re building strong habits!</p>
+                                        @break
+                                    @case(2)
+                                        <p class="card-text fs-7">Second wave, same strength!</p>
+                                        @break
+                                    @case(3)
+                                        <p class="card-text fs-7">Midweek master!</p>
+                                        @break
+                                    @case(4)
+                                    @case(5)
+                                    @case(6)
+                                        <p class="card-text fs-7">End of wave in sight! Push through!</p>
+                                        @break
+                                    @case(7)
+                                        <p class="card-text fs-7">Two full weeks — outstanding!</p>
+                                        @break
+                                @endswitch
+                            @else
+                                {{-- Third wave and beyond --}}
+                                <p class="card-text fs-7">
+                                    Wave {{ $cycle + 1 }}, Day {{ $day }} — you’re unstoppable. Keep up the greatness!
+                                </p>
+                            @endif
                     </div>
                 </div>
             </div>
@@ -276,7 +362,17 @@ document.addEventListener("DOMContentLoaded", function () {
     </div>
 </div>
 
+@if(session('new_badges'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var badgeModal = new bootstrap.Modal(document.getElementById('badgeEarnedModal'));
+            badgeModal.show();
+        });
+    </script>
+@endif
+
     @include('Include.footer')
+
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('btn-no-smoke').addEventListener('click', function () {

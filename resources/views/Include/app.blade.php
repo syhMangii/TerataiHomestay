@@ -63,7 +63,7 @@
                                     </a>
                                 </li> -->
                                 <li class="nk-menu-item">
-        <a href="/badges" class="nk-menu-link">
+        <a href="/collection" class="nk-menu-link">
             <span class="nk-menu-icon"><em class="bi bi-gift-fill"></em></span>
 
             <span class="nk-menu-text">Badge Collection</span>

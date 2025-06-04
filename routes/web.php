@@ -6,6 +6,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\FAQController;
 use App\Http\Controllers\CheckInController;
 use App\Http\Controllers\FlipchartController;
+use App\Http\Controllers\BadgeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\QuitDateController;
 use Illuminate\Support\Facades\Route;
@@ -91,7 +92,8 @@ Route::middleware(['customer'])->group(function () {
     Route::get('/checkin/create', [CheckInController::class, 'create'])->name('checkin.create');
     Route::post('/checkin/store', [CheckInController::class, 'store'])->name('checkin.store');
     Route::get('/checkin/history', [CheckInController::class, 'history'])->name('checkin.history');
-    Route::get('/badges', [CheckInController::class, 'badge'])->name('checkin.badge');
+    // Route::get('/badges', [CheckInController::class, 'badges'])->name('checkin.badges');
+    Route::get('/collection', [BadgeController::class, 'collection'])->name('checkin.collection');
     Route::get('/aboutus', [CheckInController::class, 'aboutus'])->name('checkin.aboutus');
     Route::get('/flipchart', [FlipchartController::class, 'flipchart'])->name('checkin.flipchart');
 
