@@ -15,27 +15,116 @@ return new class extends Migration
     $table->id();
     $table->string('name');
     $table->string('username')->unique();
-    $table->string('email')->unique();
-    $table->string('phone');
+    $table->string('email')->unique(); 
+    $table->string('phone')->nullable(); // make it nullable
+    // add age and class_name both nullable
+    $table->integer('age')->nullable();
+    $table->string('class_name')->nullable();
     $table->string('role');
     $table->timestamp('email_verified_at')->nullable();
     $table->string('password');
     $table->string('remember_token', 100)->nullable();
     $table->boolean('is_read')->default(false)->nullable();
-$table->foreignId('school_id')->nullable()->constrained('schools')->onDelete('set null');
-$table->foreignId('clinic_id')->nullable()->constrained('clinics')->onDelete('set null');
-
+    $table->foreignId('school_id')->nullable()->constrained('schools')->onDelete('set null');
+    $table->foreignId('clinic_id')->nullable()->constrained('clinics')->onDelete('set null');
     $table->timestamps(); // created_at, updated_at
 });
 
 DB::table('users')->insert([
     [
-        'name' => 'Admin KP Seksyen 19',
-        'username' => 'admin_kp19',
+        'name' => 'Admin KP Taman Medan',
+        'username' => 'TM_NQT',
         'email' => 'admin1@gmail.com',
-        'phone' => '0123456789',
+        'phone' => null,
+        'age' => null,
+        'class_name' => null,
         'role' => 'Admin',
-        'password' => bcrypt('abc123'), // bcrypt password
+        'password' => bcrypt('TM46150A'),
+        'remember_token' => null,
+        'email_verified_at' => now(),
+        'is_read' => null,
+        'school_id' => null,
+        'clinic_id' => 1,
+        'created_at' => now(),
+        'updated_at' => now(),
+    ],
+    [
+        'name' => 'Admin KP KD',
+        'username' => 'KD_NQT',
+        'email' => 'admin2@gmail.com',
+        'phone' => null,
+        'age' => null,
+        'class_name' => null,
+        'role' => 'Admin',
+        'password' => bcrypt('KD47810A'),
+        'remember_token' => null,
+        'email_verified_at' => now(),
+        'is_read' => null,
+        'school_id' => null,
+        'clinic_id' => 2,
+        'created_at' => now(),
+        'updated_at' => now(),
+    ],
+    [
+        'name' => 'Admin KP Puchong',
+        'username' => 'PC_NQT',
+        'email' => 'admin@3ail.com',
+        'phone' => null,
+        'age' => null,
+        'class_name' => null,
+        'role' => 'Admin',
+        'password' => bcrypt('PC47100A'),
+        'remember_token' => null,
+        'email_verified_at' => now(),
+        'is_read' => null,
+        'school_id' => null,
+        'clinic_id' => 3,
+        'created_at' => now(),
+        'updated_at' => now(),
+    ],
+    [
+        'name' => 'Admin KP Kelana Jaya',
+        'username' => 'KJ_NQT',
+        'email' => 'admin4@gmail.com',
+        'phone' => null,
+        'age' => null,
+        'class_name' => null,
+        'role' => 'Admin',
+        'password' => bcrypt('KJ47301A'),
+        'remember_token' => null,
+        'email_verified_at' => now(),
+        'is_read' => null,
+        'school_id' => null,
+        'clinic_id' => 4,
+        'created_at' => now(),
+        'updated_at' => now(),
+    ],
+    [
+        'name' => 'Admin KP Seksyen 7',
+        'username' => 'S7_NQT',
+        'email' => 'admin5@gmail.com',
+        'phone' => null,
+        'age' => null,
+        'class_name' => null,
+        'role' => 'Admin',
+        'password' => bcrypt('S740000A'),
+        'remember_token' => null,
+        'email_verified_at' => now(),
+        'is_read' => null,
+        'school_id' => null,
+        'clinic_id' => 5,
+        'created_at' => now(),
+        'updated_at' => now(),
+    ],
+    [
+        'name' => 'Admin KP Seksyen 19',
+        'username' => 'S19_NQT',
+        'email' => 'admin6@gmail.com',
+        'phone' => null,
+        'age' => null,
+        'class_name' => null,
+        'role' => 'Admin',
+        'password' => bcrypt('S1940300A'),
         'remember_token' => null,
         'email_verified_at' => now(),
         'is_read' => null,
@@ -45,50 +134,22 @@ DB::table('users')->insert([
         'updated_at' => now(),
     ],
     [
-        'name' => 'Admin KP Sri Kembangan',
-        'username' => 'admin_kpsk',
-        'email' => 'admin2@gmail.com',
-        'phone' => '0198765432',
+        'name' => 'Admin KP Seri Kembangan',
+        'username' => 'SK_NQT',
+        'email' => 'petaling.kpsk@gmail.com',
+        'phone' => null,
+        'age' => null,
+        'class_name' => null,
         'role' => 'Admin',
-        'password' => bcrypt('abc123'), // bcrypt password
+        'password' => bcrypt('SK43300A'),
         'remember_token' => null,
         'email_verified_at' => now(),
-        'is_read' => false,
+        'is_read' => null,
         'school_id' => null,
         'clinic_id' => 7,
         'created_at' => now(),
         'updated_at' => now(),
-    ],
-    [
-        'name' => 'User Alam Megah',
-        'username' => 'user_megah',
-        'email' => 'user1@gmail.com',
-        'phone' => '0171234567',
-        'role' => 'User',
-        'password' => bcrypt('abc123'), // bcrypt password
-        'remember_token' => null,
-        'email_verified_at' => now(),
-        'is_read' => false,
-        'school_id' => 56, // SMK Alam Megah
-        'clinic_id' => null,
-        'created_at' => now(),
-        'updated_at' => now(),
-    ],
-    [
-        'name' => 'User Seri Kembangan',
-        'username' => 'user_skbg',
-        'email' => 'user2@gmail.com',
-        'phone' => '0186543210',
-        'role' => 'User',
-        'password' => bcrypt('abc123'), // bcrypt password
-        'remember_token' => null,
-        'email_verified_at' => now(),
-        'is_read' => false,
-        'school_id' => 66, // SMK Seri Kembangan
-        'clinic_id' => null,
-        'created_at' => now(),
-        'updated_at' => now(),
-    ],
+    ]
 ]);
 
     }

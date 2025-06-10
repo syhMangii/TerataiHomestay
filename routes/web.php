@@ -44,18 +44,34 @@ Route::group(['middleware' => ['guest']], function () {
 });
 
 Route::middleware(['admin'])->group(function () {
-    Route::get('/admin/patients', [AdminController::class, 'indexPatients'])->name('admin.patients');
-    Route::get('/admin/patient/{id}/checkins', [AdminController::class, 'viewCheckins'])->name('admin.checkins');
+    // Route::get('/admin/patient/{id}/checkins', [AdminController::class, 'viewCheckins'])->name('admin.checkins');
     Route::get('/admin/patient/{id}/edit', [AdminController::class, 'editUser'])->name('admin.editUser');
     Route::delete('/admin/patient/{id}/delete', [AdminController::class, 'deleteUser'])->name('admin.deleteUser');
 
     Route::get('/admin/patient/{id}/checkins', [AdminController::class, 'viewCheckins'])->name('admin.checkins');
-Route::get('/admin/checkin/{id}/edit', [AdminController::class, 'editCheckin'])->name('admin.checkin.edit');
-Route::delete('/admin/checkin/{id}/delete', [AdminController::class, 'deleteCheckin'])->name('admin.checkin.delete');
+    Route::get('/admin/checkin/{id}/edit', [AdminController::class, 'editCheckin'])->name('admin.checkin.edit');
+    Route::delete('/admin/checkin/{id}/delete', [AdminController::class, 'deleteCheckin'])->name('admin.checkin.delete');
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
+    Route::get('/admin/patients', [AdminController::class, 'indexPatients'])->name('admin.patients');
+    Route::get('/admin/patient-details/{user}', [AdminController::class, 'userDetails'])->name('admin.userDetails');
+    Route::get('/admin/user/{id}/edit', [AdminController::class, 'editUser'])->name('admin.editUser');
+    Route::put('/admin/user/{id}', [AdminController::class, 'updateUser'])->name('admin.updateUser');
+    // CHECK-IN edit + update + delete
+    Route::get('/checkin/{checkin}/edit', [AdminController::class, 'editCheckin'])->name('admin.editCheckin');
+    Route::post('/checkin/{checkin}/update', [AdminController::class, 'updateCheckin'])->name('admin.updateCheckin');
+    Route::delete('/checkin/{checkin}/delete', [AdminController::class, 'deleteCheckin'])->name('admin.deleteCheckin');
+    // STREAK edit + update + delete
+    Route::get('/streak/{streak}/edit', [AdminController::class, 'editStreak'])->name('admin.editStreak');
+    Route::post('/streak/{streak}/update', [AdminController::class, 'updateStreak'])->name('admin.updateStreak');
+    Route::delete('/streak/{streak}/delete', [AdminController::class, 'deleteStreak'])->name('admin.deleteStreak');
 
-    
+    // Add Patient form (GET)
+    Route::get('/admin/patients/add', [AdminController::class, 'addUserForm'])->name('admin.addUserForm');
+
+    // Save Patient (POST)
+    Route::post('/admin/patients/add', [AdminController::class, 'saveUser'])->name('admin.saveUser');
+
 
         Route::get('homestays', [HomestayController::class, 'index']);
         Route::get('createhomestays', [HomestayController::class, 'create']);

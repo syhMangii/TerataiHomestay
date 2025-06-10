@@ -1,12 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\School;
+use App\Models\Clinic;
 use App\Models\CheckIn;
-use App\Models\ScoreHistory;
 use App\Models\QuitDate;
+use App\Models\ScoreHistory;
+use App\Models\Streak;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -28,50 +32,66 @@ class DashboardController extends Controller
     //     return view('Admin.dashboard', compact('totalUsers', 'totalCheckIns', 'totalScoreHistories', 'totalQuitUsers', 'checkInsPerMonth'));
     // }
 
-    public function index()
+ public function index()
 {
-    $admin = Auth::user();
-    $clinicId = $admin->clinic_id;
+   $clinicId = Auth::user()->clinic_id;
 
-    // 1. Total Stats
-    $totalUsers = User::where('clinic_id', $clinicId)->count();
-    $totalCheckIns = CheckIn::whereIn('score_history_id', ScoreHistory::whereIn('user_id', User::where('clinic_id', $clinicId)->pluck('id'))->pluck('id'))->count();
-    $totalScoreHistories = ScoreHistory::whereIn('user_id', User::where('clinic_id', $clinicId)->pluck('id'))->count();
-    $totalQuitUsers = User::where('clinic_id', $clinicId)->where('is_read', true)->count(); // example condition for "quit"
+    // Get school IDs that belong to this clinic
+    $schoolIds = School::where('clinic_id', $clinicId)->pluck('id');
 
-    // 2. Check-Ins Per Month Chart
-    $checkInsPerMonth = CheckIn::whereIn('score_history_id', ScoreHistory::whereIn('user_id', User::where('clinic_id', $clinicId)->pluck('id'))->pluck('id'))
-        ->selectRaw('DATE_FORMAT(created_at, "%Y-%m") as month, COUNT(*) as total')
-        ->groupBy('month')
-        ->orderBy('month')
-        ->pluck('total', 'month');
+    // Get users who are connected to those schools
+    $userIds = User::whereIn('school_id', $schoolIds)->pluck('id');
 
-    // 3. Number of Users per School
+    // Count total users under those schools
+    $totalUsers = $userIds->count();
+
+    // Count users marked as "quit"
+    $totalQuitUsers = DB::table('badge_user')
+    ->where('badge_id', 4)
+    ->whereIn('user_id', $userIds)
+    ->count();
+
+    // Get check-ins for those users via their score histories
+    $checkInsPerDay = CheckIn::whereIn('score_history_id', function ($query) use ($userIds) {
+            $query->select('id')
+                ->from('score_histories')
+                ->whereIn('user_id', $userIds);
+        })
+        ->selectRaw('DATE(created_at) as day,
+            SUM(CASE WHEN action != "smoke" AND is_continous = 1 THEN 1 ELSE 0 END) as green_count,
+            SUM(CASE WHEN action = "smoke" AND is_continous = 0 THEN 1 ELSE 0 END) as red_count')
+        ->groupBy('day')
+        ->orderBy('day')
+        ->get();
+
+    $checkInLabels = $checkInsPerDay->pluck('day');
+    $greenCounts = $checkInsPerDay->pluck('green_count');
+    $redCounts = $checkInsPerDay->pluck('red_count');
+
+    // 3. Users per School (only schools from this clinic, and only users from this clinic)
+    // Get school IDs under this clinic
     $schools = School::where('clinic_id', $clinicId)
         ->withCount(['users' => function ($query) use ($clinicId) {
-            $query->where('clinic_id', $clinicId);
+            $query->whereHas('school', function ($schoolQuery) use ($clinicId) {
+                $schoolQuery->where('clinic_id', $clinicId);
+            });
         }])
         ->get();
 
-    // 4. Streak Distribution
-    $userIds = User::where('clinic_id', $clinicId)->pluck('id');
-    $scoreHistoryIds = ScoreHistory::whereIn('user_id', $userIds)->pluck('id');
-    $streakDistribution = Streak::whereIn('score_history_id', $scoreHistoryIds)
-        ->selectRaw('streak_count, COUNT(*) as count')
-        ->groupBy('streak_count')
-        ->orderBy('streak_count')
-        ->pluck('count', 'streak_count');
+        $clinic = Auth::user()->clinic; // Assuming `clinic()` relationship is defined in User model
+        $clinicName = $clinic ? $clinic->name : 'Unknown Clinic';
 
     return view('Admin.dashboard', compact(
+        'clinicName',
         'totalUsers',
-        'totalCheckIns',
-        'totalScoreHistories',
         'totalQuitUsers',
-        'checkInsPerMonth',
         'schools',
-        'streakDistribution'
-    ));
+        'checkInLabels',
+        'greenCounts',
+        'redCounts'
+        ));
 }
+
 }
 
 

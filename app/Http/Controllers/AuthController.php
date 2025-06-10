@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\School;
 use Carbon\Carbon;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash; 
@@ -121,7 +122,8 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        return view('Auth.register');
+            $schools = School::all();
+        return view('Auth.register',compact('schools'));
     }
 
     /**

@@ -117,7 +117,7 @@ style="background-color: #0d1b2a;">
                                         </div>
                                     </div>
                                 </form>
-                                <div class="my-3 text-center">
+                                <!-- <div class="my-3 text-center">
                                     <h6 class="overline-title overline-title-sep"><span>OR</span></h6>
                                 </div>
                                 <div class="row g-2">
@@ -126,7 +126,7 @@ style="background-color: #0d1b2a;">
                                                <a href="/regusr"> <button style="width:100%;" class="btn btn-secondary" type="submit">Register New Account</button> </a>
                                             </div>
                                         </div>
-                                </div><!-- .row -->
+                                </div>.row -->
                             </div>
                         </div>
                     </div>

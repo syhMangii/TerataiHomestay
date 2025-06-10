@@ -229,14 +229,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         @else
                             <p class="card-text fs-7">So proud of how far you've become!</p>
                         @endif -->
-                        @php
-                                $cycle = $streakCount; // number of full 7-day cycles
-                                $day = $wavePartition; // day within current cycle (1-7)
-                        @ endphp
 
-                            @if ($cycle == 0)
+                            @if ($streakCount == 0)
                                 {{-- First 7-day wave --}}
-                                @switch($day)
+                                @switch($wavePartition)
                                     @case(0)
                                         <p class="card-text fs-7">Start your transformation now!</p>
                                         @break
@@ -258,9 +254,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                         <p class="card-text fs-7">So proud of how far you've come!</p>
                                         @break
                                 @endswitch
-                            @elseif ($cycle == 1)
+                            @elseif ($streakCount == 1)
                                 {{-- Second wave --}}
-                                @switch($day)
+                                @switch($wavePartition)
                                     @case(0)
                                         <p class="card-text fs-7">Back for round two! You’re on fire!</p>
                                         @break
@@ -285,7 +281,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             @else
                                 {{-- Third wave and beyond --}}
                                 <p class="card-text fs-7">
-                                    Wave {{ $cycle + 1 }}, Day {{ $day }} — you’re unstoppable. Keep up the greatness!
+                                    Streak {{ $streakCount }}, Day {{ $wavePartition }} — you’re unstoppable. Keep up the greatness!
                                 </p>
                             @endif
                     </div>

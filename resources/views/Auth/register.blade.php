@@ -121,6 +121,19 @@
                                             </div><!-- .form-group -->
                                         </div>
                                         <div class="col-12">
+                                            <div class="form-group" style="background-color: #0d1b2a; color: white;">
+                                                <label for="school_id" class="form-label" style="color: white;">School</label>
+                                                <div class="form-control-wrap">
+                                                    <select name="school_id" class="form-control" style="background-color: #0d1b2a; color: white;" required>
+                                                        <option value="" disabled selected>Select School</option>
+                                                        @foreach ($schools as $school)
+                                                            <option value="{{ $school->id }}">{{ $school->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
                                             <div class="form-group">
                                                 <label for="phone" class="form-label">Phone</label>
                                                 <div class="form-control-wrap">
