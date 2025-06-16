@@ -1,15 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<style>
+            #navlogo {
+            height: 100px !important;
+            width: auto !important;
+        }
+
+@media (max-width: 768px) {
+    #navlogo {
+        height: 50px !important;
+    }
+}
+    </style>
+
 <head>
     <base href="../../">
     <meta charset="utf-8">
     <meta name="author" content="Softnio">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Multi-purpose admin dashboard template that especially build for programmers.">
-    <title>Teratai Anggun Sepintas</title>
+    <title>KKM Daily Wellness Tracker - Admin Login</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
-        <link rel="icon" type="image/x-icon" href="logo.png">
+    <link rel="icon" type="image/x-icon" href="logokkm.jpeg">
     <link rel="stylesheet" href="./assets/css/style.css?v1.1.1">
 </head>
 
@@ -23,8 +36,8 @@ style="background-color: #0d1b2a;">
         </a>
         <nav id="navmenu" class="navmenu">
             <ul class="nav">
-                <li class="nav-item"><a href="/#hero" class="nav-link text-white">Home</a></li>
-                <li class="nav-item"><a href="/#about" class="nav-link text-white">About</a></li>
+                <!-- <li class="nav-item"><a href="/#hero" class="nav-link text-white">Home</a></li>
+                <li class="nav-item"><a href="/#about" class="nav-link text-white">About</a></li> -->
                 <li class="nav-item"><a href="/loginusr" class="nav-link text-white">Patient</a></li>
                 </ul>
             <i class="mobile-nav-toggle d-xl-none fas fa-bars text-white"></i>

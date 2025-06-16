@@ -108,10 +108,16 @@
     padding: 20px 0;
   }
 
-  #navlogo {
-    height: 100px !important;
-    width: auto !important;
-  }
+#navlogo {
+    height: 100px; /* Default size */
+}
+
+@media (max-width: 768px) {
+    #navlogo {
+        height: 50px; /* Smaller on mobile */
+    }
+}
+
 
   .header .logo img {
     max-height: 300px !important;
@@ -140,8 +146,8 @@
         </a>
         <nav id="navmenu" class="navmenu">
             <ul class="nav">
-                <li class="nav-item"><a href="/#hero" class="nav-link text-white">Home</a></li>
-                <li class="nav-item"><a href="/#about" class="nav-link text-white">About</a></li>
+                <!-- <li class="nav-item"><a href="/#hero" class="nav-link text-white">Home</a></li>
+                <li class="nav-item"><a href="/#about" class="nav-link text-white">About</a></li> -->
                 <li class="nav-item"><a href="/loginusr" class="nav-link text-white">Login</a></li>
             </ul>
             <i class="mobile-nav-toggle d-xl-none fas fa-bars text-white"></i>

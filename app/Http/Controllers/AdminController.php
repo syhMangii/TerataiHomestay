@@ -25,7 +25,7 @@ class AdminController extends Controller
         // Admin only sees schools under their clinic_id
         $schools = School::where('clinic_id', $clinicId)->get();
 
-        return view('admin.add-user', compact('schools'));
+        return view('Admin.add-user', compact('schools'));
     }
 
 
@@ -128,7 +128,7 @@ class AdminController extends Controller
         ->orderBy('quit_date', 'desc')
         ->first();
 
-    return view('admin.user-details', compact(
+    return view('Admin.user-details', compact(
         'user',
         'scoreHistories',
         'checkIns',
@@ -143,8 +143,8 @@ class AdminController extends Controller
     // Edit Check-In
     public function editCheckin($checkinId)
     {
-        $checkIn = \App\Models\CheckIn::findOrFail($checkinId);
-        return view('admin.edit_checkin', compact('checkIn'));
+        $checkIn = CheckIn::findOrFail($checkinId);
+        return view('Admin.edit_checkin', compact('checkIn'));
     }
 
     // Update Check-In
@@ -177,7 +177,7 @@ class AdminController extends Controller
     public function editStreak($streakId)
     {
         $streak = \App\Models\Streak::findOrFail($streakId);
-        return view('admin.edit_streak', compact('streak'));
+        return view('Admin.edit_streak', compact('streak'));
     }
 
     // Update Streak

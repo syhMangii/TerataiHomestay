@@ -1,4 +1,32 @@
 @include('Include.app') <!-- Your header -->
+<style>
+    .badge-img {
+        width: 80px;
+        transition: all 0.3s ease;
+    }
+
+    @media (min-width: 768px) {
+        .badge-img {
+            width: 120px; /* Bigger on laptop/tablet and above */
+        }
+    }
+
+    .text-gold {
+        color: gold;
+        font-size: 0.75rem;
+    }
+
+    .badge-label {
+        font-size: 0.75rem;
+    }
+
+    @media (min-width: 768px) {
+        .badge-label {
+            font-size: 0.85rem;
+        }
+    }
+</style>
+
 <br>
 <br>
 <div class="container my-4 mt-5">
@@ -16,8 +44,9 @@
                 $badgeCount++;
             @endphp
 
-            <div class="col-4 d-flex justify-content-center my-2">
-                <img src="{{ asset($path) }}" alt="{{ $badge->name }}" title="{{ $badge->description }}" width="80">
+            <div class="col-4 d-flex flex-column align-items-center my-2 text-center">
+                <img src="{{ asset($path) }}" alt="{{ $badge->name }}" title="{{ $badge->description }}" class="badge-img">
+                <p class="badge-label mb-0 {{ $earned ? 'text-gold' : 'text-white' }} text-nowrap">{{ $badge->name }}</p>
             </div>
 
             @if (in_array($badgeCount, [2, 4, 7, 14]))

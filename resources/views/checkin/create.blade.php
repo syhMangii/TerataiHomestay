@@ -1,5 +1,31 @@
 @include('Include.app')
-
+@if(session('new_badges'))
+    <!-- Badge Earned Modal -->
+    <div class="modal fade" id="badgeEarnedModal" tabindex="-1" aria-labelledby="badgeEarnedLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-success">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="badgeEarnedLabel">🎉 Badge Unlocked!</h5>
+                </div>
+                <div class="modal-body text-center text-black">
+                    <p class="mb-3">You’ve earned the following badge{{ count(session('new_badges')) > 1 ? 's' : '' }}:</p>
+                    <div class="d-flex flex-wrap justify-content-center gap-4">
+                        @foreach(session('new_badges') as $badge)
+                            <div class="text-center" style="max-width: 150px;">
+                                <img src="{{ asset('badges/c/' . $badge->image_name) }}" alt="{{ $badge->name }}" class="img-thumbnail" style="width: 80px; height: 80px;">
+                                <p class="mt-2 fw-bold mb-1 text-black">{{ $badge->name }}</p>
+                                <small class="text-muted d-block">{{ $badge->description }}</small>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Awesome!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     @if (!$activeQuitDate)
@@ -47,41 +73,12 @@ document.addEventListener("DOMContentLoaded", function () {
         margin: 0;
     }
 </style>
-@if(session('new_badges'))
-    <!-- Badge Earned Modal -->
-    <div class="modal fade" id="badgeEarnedModal" tabindex="-1" aria-labelledby="badgeEarnedLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-success">
-                <div class="modal-header bg-success text-white">
-                    <h5 class="modal-title" id="badgeEarnedLabel">🎉 Badge Unlocked!</h5>
-                </div>
-                <div class="modal-body text-center text-black">
-                    <p class="mb-3">You’ve earned the following badge{{ count(session('new_badges')) > 1 ? 's' : '' }}:</p>
-                    <div class="d-flex flex-wrap justify-content-center gap-4">
-                        @foreach(session('new_badges') as $badge)
-                            <div class="text-center" style="max-width: 150px;">
-                                <img src="{{ asset('badges/c/' . $badge->image_name) }}" alt="{{ $badge->name }}" class="img-thumbnail" style="width: 80px; height: 80px;">
-                                <p class="mt-2 fw-bold mb-1 text-black">{{ $badge->name }}</p>
-                                <small class="text-muted d-block">{{ $badge->description }}</small>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-                <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Awesome!</button>
-                </div>
-            </div>
-        </div>
-    </div>
-@endif
 
-<hr>
-<div class="nk-content">
-    <div class="container my-3 ">
-        <div class="row justify-content-center g-3">
-            <!-- Daily Score Card -->
-            <div class="col-4 col-md-4 order-1">
-                <div class="card square-card text-center shadow-sm bg-primary text-white border border-1 border-white">
+<hr><br><br>
+        <div class="row justify-content-center gx-3 gy-1">
+            <!-- 1. Check-in Score -->
+            <div class="col-4 col-md-2 mx-auto">
+                    <div class="card square-card text-center shadow-sm bg-primary text-white border border-1 border-white">
                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
                         <i class="bi bi-calendar2-check fs-1 mb-0"></i>
                         <p class="card-title text-nowrap">Check-in Score</p>
@@ -90,8 +87,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
             </div>
 
-            <!-- Streak Score Card -->
-            <div class="col-4 col-md-4 order-2">
+            <!-- 2. Streak Score -->
+            <div class="col-4 col-md-2 mx-auto">
                 <div class="card square-card text-center shadow-sm bg-success text-white border border-1 border-white">
                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
                         <i class="bi bi-fire fs-1 mb-0"></i>
@@ -101,8 +98,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
             </div>
 
-            <!-- Total Score Card -->
-            <div class="col-4 col-md-4 order-3">
+            <!-- 3. Total Score -->
+            <div class="col-4 col-md-2 mx-auto">
                 <div class="card square-card text-center shadow-sm bg-warning text-white border border-1 border-white">
                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
                         <i class="bi bi-bar-chart-line fs-1 mb-0"></i>
@@ -111,29 +108,31 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row justify-content-center g-0 mt-0 p-3">
-            <!-- Quit Date Card -->
-            <div class="col-6 col-md-4 order-4">
-                <div class="card square-card text-center shadow-sm bg-white text-dark border border-1 border-white" style="height: 120px;">
+
+            <!-- Break for mobile: 3 on top, 2 on bottom -->
+            <div class="w-100 d-md-none"></div>
+
+            <!-- 4. Quit Date -->
+            <div class="col-4 col-md-2 mx-auto">
+                    <div class="card square-card text-center shadow-sm bg-white text-dark border border-1 border-white">
                     <div class="card-body d-flex flex-column justify-content-center align-items-center p-2">
-                        <i class="bi bi-person-x fs-3 mb-1 text-dark"></i> <!-- Ensure icon is black -->
+                        <i class="bi bi-person-x fs-3 mb-1 text-dark"></i>
                         <p class="card-title mb-1">Quit Date</p>
 
                         @if ($quitDate && $quitDate->is_active)
-                            <p class="card-text fs-7 mb-0">{{ \Carbon\Carbon::parse($quitDate->quit_date)->format('d M Y') }}</p>
+                            <p class="card-text fs-7 mb-0 text-nowrap" >{{ \Carbon\Carbon::parse($quitDate->quit_date)->format('d M Y') }}</p>
                         @else
-                            <button class="btn btn-dark btn-sm mt-1" style="font-size: 0.65rem; padding: 0.25rem 0.4rem;" data-bs-toggle="modal" data-bs-target="#quitDateModal">
-                                Set {{ $quitDate ? 'New ' : '' }}Quit Date
+                            <button class="btn btn-dark btn-sm mt-1 text-nowrap" style="font-size: 0.65rem; padding: 0.25rem 0.4rem;" data-bs-toggle="modal" data-bs-target="#quitDateModal">
+                                Set Quit Date
                             </button>
                         @endif
                     </div>
                 </div>
             </div>
 
-            <!-- Streak Count Card -->
-            <div class="col-6 col-md-4 order-5">
-                <div class="card square-card text-center shadow-sm bg-dark text-white border border-1 border-white" style="height: 120px;">
+            <!-- 5. Streak Count -->
+            <div class="col-4 col-md-2 mx-auto">
+                <div class="card square-card text-center shadow-sm bg-dark text-white border border-1 border-white">
                     <div class="card-body d-flex flex-column justify-content-center align-items-center p-2">
                         <i class="bi bi-lightning fs-3 mb-1"></i>
                         <p class="card-title mb-1">Streak Count</p>
@@ -142,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
             </div>
         </div>
-    </div>
+
 
     <!-- Quit Date Modal -->
     <div class="modal fade" id="quitDateModal" tabindex="-1" aria-labelledby="quitDateModalLabel" aria-hidden="true">

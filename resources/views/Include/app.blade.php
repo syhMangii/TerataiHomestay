@@ -77,7 +77,7 @@
 <li class="nk-menu-item">
     <a href="https://forms.gle/1hVH4F31yXXtuu8J8" class="nk-menu-link" target="_blank">
         <span class="nk-menu-icon"><em class="bi bi-card-checklist"></em></span>
-        <span class="nk-menu-text">Borang PPIM</span>
+        <span class="nk-menu-text">Borang PPIM 02-2020</span>
     </a>
 </li>
 

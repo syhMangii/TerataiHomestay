@@ -17,6 +17,13 @@
             width: auto !important;
         }
 
+@media (max-width: 768px) {
+    #navlogo {
+        height: 50px !important;
+    }
+}
+
+
         .nk-wrap {
             min-height: 100vh;
             display: flex;
@@ -39,8 +46,8 @@ style="background-color: #0d1b2a;">
         </a>
         <nav id="navmenu" class="navmenu">
             <ul class="nav">
-                <li class="nav-item"><a href="/#hero" class="nav-link text-white">Home</a></li>
-                <li class="nav-item"><a href="/#about" class="nav-link text-white">About</a></li>
+                <!-- <li class="nav-item"><a href="/#hero" class="nav-link text-white">Home</a></li>
+                <li class="nav-item"><a href="/#about" class="nav-link text-white">About</a></li> -->
                 <li class="nav-item"><a href="/loginadmin" class="nav-link text-white">Admin</a></li>
             </ul>
             <i class="mobile-nav-toggle d-xl-none fas fa-bars text-white"></i>
