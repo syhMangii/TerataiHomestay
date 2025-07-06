@@ -48,7 +48,7 @@
                         <table class="table table-sm mb-0" style="font-size: 14px; color: #ffffff;">
                             <thead style="background-color: #1e2a40; color: #d1d9e6;">
                                 <tr>
-                                    <th>Name</th>
+                                    <!-- <th>Name</th> -->
                                     <th>Username</th>
                                     <th>Age</th>
                                     <th>Class</th>
@@ -60,7 +60,7 @@
                             <tbody>
                                 @forelse ($users as $user)
                                 <tr>
-                                    <td>{{ $user->name }}</td>
+                                    <!-- <td>{{ $user->name }}</td> -->
                                     <td>{{ $user->username }}</td>
                                     <td>{{ $user->age }}</td>
                                     <td>{{ $user->class_name }}</td>

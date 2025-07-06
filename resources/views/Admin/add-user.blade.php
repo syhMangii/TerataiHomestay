@@ -19,10 +19,10 @@
             <form method="POST" action="{{ route('admin.saveUser') }}">
                 @csrf
 
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     <label for="name" class="form-label">Full Name</label>
                     <input type="text" class="form-control" name="name" required>
-                </div>
+                </div> -->
 
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
@@ -34,10 +34,10 @@
                     <input type="email" class="form-control" name="email" required>
                 </div>
 
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     <label for="phone" class="form-label">Phone</label>
                     <input type="text" class="form-control" name="phone">
-                </div>
+                </div> -->
 
                 <div class="mb-3">
                     <label for="age" class="form-label">Age</label>

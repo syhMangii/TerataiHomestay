@@ -29,10 +29,10 @@
                 <h3 class="mb-0">User Details</h3>
                 <a href="{{ route('admin.editUser', $user->id) }}" class="btn btn-success btn-sm">Edit User</a>
             </div>
-            <p><strong>Name:</strong> {{ $user->name }}</p>
+            <!-- <p><strong>Name:</strong> {{ $user->name }}</p> -->
             <p><strong>Username:</strong> {{ $user->username }}</p>
             <p><strong>Email:</strong> {{ $user->email }}</p>
-            <p><strong>Phone:</strong> {{ $user->phone ?? '-' }}</p>
+            <!-- <p><strong>Phone:</strong> {{ $user->phone ?? '-' }}</p> -->
             <p><strong>Age:</strong> {{ $user->age ?? '-' }}</p>
             <p><strong>Class Name:</strong> {{ $user->class_name ?? '-' }}</p>
             <p><strong>School:</strong> {{ $user->school ? $user->school->name : '-' }}</p>
