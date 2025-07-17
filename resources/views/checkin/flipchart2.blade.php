@@ -16,7 +16,7 @@
 
         <!-- Slides -->
         <div class="carousel-inner">
-          @for ($i = 1; $i <= 19; $i++)
+          @for ($i = 1; $i <= 21; $i++)
             <div class="carousel-item @if ($i === 1) active @endif">
               <img src="/manuals/{{ $i }}.png" class="d-block w-100 img-fluid">
             </div>

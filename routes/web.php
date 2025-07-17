@@ -111,11 +111,13 @@ Route::middleware(['customer'])->group(function () {
     // Route::get('/badges', [CheckInController::class, 'badges'])->name('checkin.badges');
     Route::get('/collection', [BadgeController::class, 'collection'])->name('checkin.collection');
     Route::get('/aboutus', [CheckInController::class, 'aboutus'])->name('checkin.aboutus');
-    Route::get('/flipchart', [FlipchartController::class, 'flipchart'])->name('checkin.flipchart');
-
-    Route::post('/quit-dates', [QuitDateController::class, 'store'])->name('quit-dates.store');
+    Route::get('/flipchart', [FlipchartController::class, 'flipchart'])->name('flipchart');
+    Route::get('/flipchart-welcome', [FlipchartController::class, 'welcome'])->name('flipchart.welcome');
+    Route::get('/flipchart2', [FlipchartController::class, 'flipchart2'])->name('flipchart.afterQuit');
+    Route::post('/flipchart/submit-quiz', [FlipchartController::class, 'submitQuiz'])->name('slides.submit-quiz');
     Route::post('/slides/confirm-read', [FlipchartController::class, 'confirmRead'])->name('slides.confirm-read');
 
+    Route::post('/quit-dates', [QuitDateController::class, 'store'])->name('quit-dates.store');
 
     Route::get('homeusr',[CustomerController::class, 'index']);
     Route::get('calendar',[CustomerController::class, 'calendar']);

@@ -69,11 +69,46 @@
             <span class="nk-menu-text">Badge Collection</span>
         </a>
     </li>
-    <li class="nk-menu-item">
+    <!-- <li class="nk-menu-item">
     <a href="/flipchart" class="nk-menu-link">
         <span class="nk-menu-icon"><em class="bi bi-journal-medical"></em></span>
         <span class="nk-menu-text">Flipchart</span>
-    </a>
+    </a> -->
+    @php
+    use Carbon\Carbon;
+    use App\Models\QuitDate;
+
+    $user = auth()->user();
+    $createdAt = $user->created_at;
+    $moreThan2Weeks = $createdAt->lt(now()->subWeeks(2));
+    $hasActiveQuitDate = $user->quitDates()->exists();
+@endphp
+
+@if (!$moreThan2Weeks)
+    {{-- Welcome Flipchart --}}
+    <li class="nk-menu-item">
+        <a href="{{ route('flipchart.welcome') }}" class="nk-menu-link">
+            <span class="nk-menu-icon"><em class="bi bi-journal-code"></em></span>
+            <span class="nk-menu-text">Flipchart</span>
+        </a>
+    </li>
+@elseif ($moreThan2Weeks && $hasActiveQuitDate)
+    {{-- Flipchart after quit --}}
+    <li class="nk-menu-item">
+        <a href="{{ route('flipchart.afterQuit') }}" class="nk-menu-link">
+            <span class="nk-menu-icon"><em class="bi bi-journal-bookmark-fill"></em></span>
+            <span class="nk-menu-text">Flipchart</span>
+        </a>
+    </li>
+@else
+    {{-- Regular Flipchart --}}
+    <li class="nk-menu-item">
+        <a href="{{ route('flipchart') }}" class="nk-menu-link">
+            <span class="nk-menu-icon"><em class="bi bi-journal-medical"></em></span>
+            <span class="nk-menu-text">Flipchart</span>
+        </a>
+    </li>
+@endif
 <li class="nk-menu-item">
     <a href="https://forms.gle/1hVH4F31yXXtuu8J8" class="nk-menu-link" target="_blank">
         <span class="nk-menu-icon"><em class="bi bi-card-checklist"></em></span>

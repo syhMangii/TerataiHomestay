@@ -168,24 +168,40 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
     </div>
 
+    @php
+    use Carbon\Carbon;
+
+    $user = auth()->user();
+    $createdAt = Carbon::parse($user->created_at);
+    $moreThan2Weeks = $createdAt->lt(now()->subWeeks(2));
+    $hasQuitDate = !empty($user->quit_date);
+    @endphp
+
+    @if ($moreThan2Weeks && !$user->is_read)
     <!-- Flipchart Reminder Modal -->
     <div class="modal fade" id="flipchartReminderModal" tabindex="-1" aria-labelledby="flipchartReminderLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-warning">
-        <div class="modal-header bg-warning">
-            <h5 class="modal-title" id="flipchartReminderLabel">Friendly Reminder</h5>
-        </div>
-        <div class="modal-body text-black">
-            <p>It looks like you haven't read the flipchart yet. Please take a moment to go through them.</p>
-            <p class="text-muted">This reminder will keep appearing until you confirm that you’ve read the slides.</p>
-        </div>
-        <div class="modal-footer">
-            <a href="{{ route('checkin.flipchart') }}" class="btn btn-primary">Read Now</a>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Read Later</button>
-        </div>
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-warning">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title" id="flipchartReminderLabel">Friendly Reminder</h5>
+                </div>
+                <div class="modal-body text-black">
+                    <p>It looks like you haven't read the flipchart yet. Please take a moment to go through them.</p>
+                    <p class="text-muted">This reminder will keep appearing until you confirm that you’ve read the slides.</p>
+                </div>
+                <div class="modal-footer">
+                    @if (!$hasQuitDate)
+                        <a href="{{ route('flipchart') }}" class="btn btn-primary">Read Now</a>
+                    @else
+                        <a href="{{ route('flipchart.afterQuit') }}" class="btn btn-primary">Read Now</a>
+                    @endif
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Read Later</button>
+                </div>
+            </div>
         </div>
     </div>
-    </div>
+    @endif
+
 
     <hr>
 
