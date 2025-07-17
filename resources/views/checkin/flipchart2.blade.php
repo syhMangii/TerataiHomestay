@@ -7,7 +7,7 @@
       <div id="carouselExampleIndicators" class="carousel slide">
         <!-- Indicators -->
         <div class="carousel-indicators">
-          @for ($i = 0; $i < 19; $i++)
+          @for ($i = 0; $i < 21; $i++)
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ $i }}"
                     @if ($i === 0) class="active" aria-current="true" @endif
                     aria-label="Slide {{ $i + 1 }}"></button>
@@ -91,11 +91,12 @@
       </div>
       <div class="modal-body text-center text-dark">
         @if ($quizResult === 'pass')
-    <p>You’ve passed the quiz and have been marked as read ✅</p>
-@else
-    <p>You must answer at least 3 questions correctly. Please try again. ❌</p>
-@endif
+            <p>You’ve passed the quiz and have been marked as read ✅</p>
+        @else
+            <p>You must answer at least 3 questions correctly. Please try again. ❌</p>
+        @endif
 
+        <p>You got <strong>{{ session('quiz_score') }}/5</strong> correct.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" id="resultOkayBtn">OK</button>

@@ -1,0 +1,137 @@
+[
+    {
+        "id": 1,
+        "question": "Merokok tidak menyebabkan ketagihan.",
+        "correct": "B"
+    },
+    {
+        "id": 2,
+        "question": "Rokok elektronik (vape) mengandungi bahan kimia berbahaya.",
+        "correct": "A"
+    },
+    {
+        "id": 3,
+        "question": "Merokok tidak menjejaskan kesihatan oral.",
+        "correct": "B"
+    },
+    {
+        "id": 4,
+        "question": "Salah satu kesan vape ialah iritasi mata.",
+        "correct": "A"
+    },
+    {
+        "id": 5,
+        "question": "Rokok tidak meningkatkan risiko penyakit kardiovaskular.",
+        "correct": "B"
+    },
+    {
+        "id": 6,
+        "question": "Produk tembakau hanya dalam bentuk rokok biasa.",
+        "correct": "B"
+    },
+    {
+        "id": 7,
+        "question": "Vape boleh menyebabkan masalah asma.",
+        "correct": "A"
+    },
+    {
+        "id": 8,
+        "question": "Simptom penarikan nikotin termasuk mudah marah dan masalah tidur.",
+        "correct": "A"
+    },
+    {
+        "id": 9,
+        "question": "Kaedah 12M boleh membantu berhenti merokok.",
+        "correct": "A"
+    },
+    {
+        "id": 10,
+        "question": "Salah satu daripada 12M ialah ‘Menonton TV’.",
+        "correct": "B"
+    },
+    {
+        "id": 11,
+        "question": "Minum air kosong boleh bantu kurangkan keinginan merokok.",
+        "correct": "A"
+    },
+    {
+        "id": 12,
+        "question": "Meningkatkan selera makan bukan simptom berhenti nikotin.",
+        "correct": "B"
+    },
+    {
+        "id": 13,
+        "question": "Tempoh masa singkat antara bangun dan rokok pertama menandakan ketagihan rendah.",
+        "correct": "B"
+    },
+    {
+        "id": 14,
+        "question": "Senaman ringan boleh bantu hilangkan keinginan merokok.",
+        "correct": "A"
+    },
+    {
+        "id": 15,
+        "question": "Tiada saluran bantuan untuk berhenti merokok di Malaysia.",
+        "correct": "B"
+    },
+    {
+        "id": 16,
+        "question": "Sokongan daripada keluarga dan sahabat boleh membantu berhenti merokok.",
+        "correct": "A"
+    },
+    {
+        "id": 17,
+        "question": "Memberi ganjaran kepada diri sendiri tidak membantu dalam proses berhenti merokok.",
+        "correct": "B"
+    },
+    {
+        "id": 18,
+        "question": "Nikotin ialah bahan yang tidak memberi kesan ketagihan kepada perokok.",
+        "correct": "B"
+    },
+    {
+        "id": 19,
+        "question": "E-rokok adalah salah satu bentuk produk hasil tembakau.",
+        "correct": "A"
+    },
+    {
+        "id": 20,
+        "question": "Kandungan bahan kimia dalam vape tidak membahayakan kesihatan.",
+        "correct": "B"
+    },
+    {
+        "id": 21,
+        "question": "Salah satu kesan vape ialah kegagalan bernafas dan sawan.",
+        "correct": "A"
+    },
+    {
+        "id": 22,
+        "question": "Merokok boleh meningkatkan risiko kanser.",
+        "correct": "A"
+    },
+    {
+        "id": 23,
+        "question": "Kegelisahan merupakan salah satu simptom penarikan nikotin.",
+        "correct": "A"
+    },
+    {
+        "id": 24,
+        "question": "Terapi Penggantian Nikotin (NRT) tidak membantu dalam proses berhenti merokok.",
+        "correct": "B"
+    },
+    {
+        "id": 25,
+        "question": "Kaedah melengahkan masa sebelum merokok boleh kurangkan ketagihan.",
+        "correct": "A"
+    },
+    {
+        "id": 26,
+        "question": "Sokongan rakan sebaya dan keluarga tidak penting untuk berhenti merokok.",
+        "correct": "B"
+    },
+    {
+        "id": 27,
+        "question": "Ganjaran diri selepas berjaya tidak berkesan dalam motivasi berhenti merokok.",
+        "correct": "B"
+    }
+]

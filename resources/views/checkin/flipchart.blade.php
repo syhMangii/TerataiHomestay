@@ -91,11 +91,12 @@
       </div>
       <div class="modal-body text-center text-dark">
         @if ($quizResult === 'pass')
-    <p>You’ve passed the quiz and have been marked as read ✅</p>
-@else
-    <p>You must answer at least 3 questions correctly. Please try again. ❌</p>
-@endif
+            <p>You’ve passed the quiz and have been marked as read ✅</p>
+        @else
+            <p>You must answer at least 3 questions correctly. Please try again. ❌</p>
+        @endif
 
+        <p>You got <strong>{{ session('quiz_score') }}/5</strong> correct.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" id="resultOkayBtn">OK</button>
@@ -104,6 +105,7 @@
   </div>
 </div>
 @endif
+
 
 @include('Include.footer') <!-- Your footer -->
 
