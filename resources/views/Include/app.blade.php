@@ -75,25 +75,32 @@
         <span class="nk-menu-text">Flipchart</span>
     </a> -->
     @php
-    use Carbon\Carbon;
+    use Carbon\Carbon; 
     use App\Models\QuitDate;
 
     $user = auth()->user();
     $createdAt = $user->created_at;
     $moreThan2Weeks = $createdAt->lt(now()->subWeeks(2));
-    $hasActiveQuitDate = $user->quitDates()->exists();
+    $hasActiveQuitDate = $user->quitDates()->where('is_active', true)->exists();
 @endphp
 
 @if (!$moreThan2Weeks)
-    {{-- Welcome Flipchart --}}
+    {{--  Flipchart 1 --}}
     <li class="nk-menu-item">
         <a href="{{ route('flipchart.welcome') }}" class="nk-menu-link">
             <span class="nk-menu-icon"><em class="bi bi-journal-code"></em></span>
-            <span class="nk-menu-text">Flipchart</span>
+            <span class="nk-menu-text">Flipchart </span>
+        </a>
+    </li>
+    {{--  Flipchart 2 --}}
+    <li class="nk-menu-item">
+        <a href="{{ route('flipchart.afterQuit') }}" class="nk-menu-link">
+            <span class="nk-menu-icon"><em class="bi bi-journal-bookmark-fill"></em></span>
+            <span class="nk-menu-text">Flipchart 2.0</span>
         </a>
     </li>
 @elseif ($moreThan2Weeks && $hasActiveQuitDate)
-    {{-- Flipchart after quit --}}
+    {{-- Flipchart 2--}}
     <li class="nk-menu-item">
         <a href="{{ route('flipchart.afterQuit') }}" class="nk-menu-link">
             <span class="nk-menu-icon"><em class="bi bi-journal-bookmark-fill"></em></span>
@@ -101,14 +108,22 @@
         </a>
     </li>
 @else
-    {{-- Regular Flipchart --}}
+    {{--  Flipchart 1 --}}
     <li class="nk-menu-item">
         <a href="{{ route('flipchart') }}" class="nk-menu-link">
             <span class="nk-menu-icon"><em class="bi bi-journal-medical"></em></span>
             <span class="nk-menu-text">Flipchart</span>
         </a>
     </li>
+    {{--  Flipchart 2 --}}
+    <li class="nk-menu-item">
+        <a href="{{ route('flipchart.afterQuit') }}" class="nk-menu-link">
+            <span class="nk-menu-icon"><em class="bi bi-journal-bookmark-fill"></em></span>
+            <span class="nk-menu-text">Flipchart 2.0</span>
+        </a>
+    </li>
 @endif
+
 <li class="nk-menu-item">
     <a href="https://forms.gle/1hVH4F31yXXtuu8J8" class="nk-menu-link" target="_blank">
         <span class="nk-menu-icon"><em class="bi bi-card-checklist"></em></span>

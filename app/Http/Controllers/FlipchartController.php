@@ -90,6 +90,7 @@ public function flipchart2()
         } else {
             session()->flash('quiz_result', 'fail');
         }
+            session()->flash('quiz_score', $correctCount); // <-- new line
 
     return redirect()->back();
     }

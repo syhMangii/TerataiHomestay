@@ -169,12 +169,13 @@ document.addEventListener("DOMContentLoaded", function () {
     </div>
 
     @php
-    use Carbon\Carbon;
+    use Carbon\Carbon; 
+    use App\Models\QuitDate;
 
     $user = auth()->user();
-    $createdAt = Carbon::parse($user->created_at);
+    $createdAt = $user->created_at;
     $moreThan2Weeks = $createdAt->lt(now()->subWeeks(2));
-    $hasQuitDate = !empty($user->quit_date);
+    $hasActiveQuitDate = $user->quitDates()->where('is_active', true)->exists();
     @endphp
 
     @if ($moreThan2Weeks && !$user->is_read)
@@ -190,13 +191,17 @@ document.addEventListener("DOMContentLoaded", function () {
                     <p class="text-muted">This reminder will keep appearing until you confirm that you’ve read the slides.</p>
                 </div>
                 <div class="modal-footer">
-                    @if (!$hasQuitDate)
-                        <a href="{{ route('flipchart') }}" class="btn btn-primary">Read Now</a>
-                    @else
+                    @if (!$moreThan2Weeks)
+                        <a href="{{ route('flipchart.welcome') }}" class="btn btn-primary">Read Now</a>
+                    @elseif ($moreThan2Weeks && $hasActiveQuitDate)
                         <a href="{{ route('flipchart.afterQuit') }}" class="btn btn-primary">Read Now</a>
+                    @else
+                        <a href="{{ route('flipchart') }}" class="btn btn-primary">Read Now</a>
                     @endif
+
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Read Later</button>
                 </div>
+
             </div>
         </div>
     </div>
