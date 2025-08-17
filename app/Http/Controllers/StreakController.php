@@ -75,4 +75,84 @@ class StreakController extends Controller
             'hasCheckedInToday'
         ));
     }
+
+//     public function index()
+// {
+//     $user = Auth::user();
+//     $today = Carbon::today();
+
+//     // --- Test Data for Scenario 1 ---
+//     $continuousStreakCount = 4;
+//     $streakInWeeks = 0; // Since it's less than 7 days
+//     $totalActivities = 4; // Assuming these are the only activities this month
+//     $hasCheckedInToday = true;
+
+//     // Simulate check-ins for the last 4 days
+//     $checkInsByDay = collect();
+//     for ($i = 0; $i < 4; $i++) {
+//         $date = $today->copy()->subDays($i);
+//         // This is a simplified object for the view's purpose
+//         $checkInsByDay[$date->day] = (object)['created_at' => $date];
+//     }
+//     // --- End of Test Data ---
+
+//     $monthName = $today->format('F');
+//     $year = $today->year;
+//     $daysInMonth = $today->daysInMonth;
+//     $firstDayOfMonth = $today->copy()->startOfMonth()->dayOfWeekIso;
+
+//     return view('checkin.streak', compact(
+//         'streakInWeeks',
+//         'totalActivities',
+//         'checkInsByDay',
+//         'monthName',
+//         'year',
+//         'daysInMonth',
+//         'firstDayOfMonth',
+//         'continuousStreakCount',
+//         'hasCheckedInToday'
+//     ));
+// }
+
+// public function index()
+//     {
+//         $user = Auth::user();
+//         $today = Carbon::today();
+
+//         // --- Test Data for Scenario 2 ---
+//         // Current continuous streak is 2 days (today and yesterday)
+//         $continuousStreakCount = 2;
+//         $streakInWeeks = 0;
+//         // Total activities this month is 3 (one was before the break)
+//         $totalActivities = 3;
+//         $hasCheckedInToday = true;
+
+//         // Simulate check-ins for today, yesterday, and 3 days ago
+//         $checkInsByDay = collect();
+//         // Day 4 (today)
+//         $checkInsByDay[$today->day] = (object)['created_at' => $today];
+//         // Day 3 (yesterday)
+//         $checkInsByDay[$today->copy()->subDays(1)->day] = (object)['created_at' => $today->copy()->subDays(1)];
+//         // Day 1 (3 days ago) - this was before the streak broke
+//         $checkInsByDay[$today->copy()->subDays(3)->day] = (object)['created_at' => $today->copy()->subDays(3)];
+//         // --- End of Test Data ---
+
+//         $monthName = $today->format('F');
+//         $year = $today->year;
+//         $daysInMonth = $today->daysInMonth;
+//         $firstDayOfMonth = $today->copy()->startOfMonth()->dayOfWeekIso;
+
+//         return view('checkin.streak', compact(
+//             'streakInWeeks',
+//             'totalActivities',
+//             'checkInsByDay',
+//             'monthName',
+//             'year',
+//             'daysInMonth',
+//             'firstDayOfMonth',
+//             'continuousStreakCount',
+//             'hasCheckedInToday'
+//         ));
+//     }
+
 }

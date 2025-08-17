@@ -15,100 +15,207 @@ use Illuminate\Support\Facades\Auth;
 
 class CheckInController extends Controller
 {
- public function create()
-{
-    $user = Auth::user();
-    $today = Carbon::today();
-    $yesterday = $today->copy()->subDay();
+//  public function create()
+// {
+//     $user = Auth::user();
+//     $today = Carbon::today();
+//     $yesterday = $today->copy()->subDay();
 
-    // Alert if > 2 weeks and not read
-    $showFlipchartAlert = false;
-    if (!$user->is_read && $user->created_at->diffInDays(now()) >= 14) {
-        $showFlipchartAlert = true;
-    }
+//     // Alert if > 2 weeks and not read
+//     $showFlipchartAlert = false;
+//     if (!$user->is_read && $user->created_at->diffInDays(now()) >= 14) {
+//         $showFlipchartAlert = true;
+//     }
 
-    // Today’s check-in
-    $todayCheckIn = CheckIn::whereDate('created_at', $today)
-        ->whereHas('scoreHistory', fn($q) => $q->where('user_id', $user->id))
-        ->first();
+//     // Today’s check-in
+//     $todayCheckIn = CheckIn::whereDate('created_at', $today)
+//         ->whereHas('scoreHistory', fn($q) => $q->where('user_id', $user->id))
+//         ->first();
 
-    $hasCheckedInToday = $todayCheckIn !== null;
+//     $hasCheckedInToday = $todayCheckIn !== null;
 
-    // === SCORE CALCULATIONS ===
-    $checkinScore = CheckIn::whereHas('scoreHistory', fn($q) => 
+//     // === SCORE CALCULATIONS ===
+//     $checkinScore = CheckIn::whereHas('scoreHistory', fn($q) => 
+//         $q->where('user_id', $user->id))
+//         ->with('scoreHistory')
+//         ->get()
+//         ->sum(fn($checkIn) => $checkIn->scoreHistory->score ?? 0);
+
+//     $streakScore = Streak::whereHas('scoreHistory', fn($q) => 
+//         $q->where('user_id', $user->id))
+//         ->with('scoreHistory')
+//         ->get()
+//         ->sum(fn($streak) => $streak->scoreHistory->score ?? 0);
+
+//     $latestStreak = Streak::whereHas('scoreHistory', fn($q) => $q->where('user_id', $user->id))
+//         ->latest()
+//         ->first();
+
+//     $streakCount = $latestStreak?->streak_count ?? 0;
+
+//     $totalScore = ScoreHistory::where('user_id', $user->id)->sum('score');
+
+//     $quitDate = QuitDate::where('user_id', $user->id)->latest()->first();
+//     $activeQuitDate = QuitDate::where('user_id', $user->id)->where('is_active', true)->exists();
+
+//     // === WAVE LOGIC ===
+//     $wavePartition = 0;
+
+//     $checkIns = CheckIn::whereHas('scoreHistory', fn($q) => $q->where('user_id', $user->id))
+//     ->orderByDesc('created_at') // count from latest to oldest
+//     ->get();
+
+//     //count continous checkins
+//     if ($checkIns->isNotEmpty()) {
+//     $count = 0;
+
+//     foreach ($checkIns as $checkIn) {
+//         if (strtolower($checkIn->action) === 'not smoke') {
+//             if (!$checkIn->is_continous) {
+//                 break; // stop counting if is_continous = 0 and action = 'not smoke'
+//             }
+//             $count++;
+//         } else {
+//             break; // stop if action is not 'not smoke'
+//         }
+//     }
+
+//     $wavePartition = $count > 0 ? ($count % 7 ?: 7) : 0;
+// }
+
+//     // Circular wave logic
+//     $shiftSteps = [
+//         0 => -56, 1 => -62, 2 => -68, 3 => -74,
+//         4 => -80, 5 => -86, 6 => -92, 7 => -98,
+//     ];
+
+//     $circularWaveShift = $shiftSteps[$wavePartition];
+
+//     // === Badge check ===
+//     $badgeController = new BadgeController();
+//     $newBadges = $badgeController->checkAndAwardBadges();
+
+//     return view('checkin.create', compact(
+//         'checkinScore',
+//         'streakScore',
+//         'totalScore',
+//         'quitDate',
+//         'wavePartition',
+//         'circularWaveShift',
+//         'hasCheckedInToday',
+//         'streakCount',
+//         'activeQuitDate',
+//         'showFlipchartAlert',
+//         'newBadges'
+//         ));
+// }
+
+public function create()
+    {
+        $user = Auth::user();
+        $today = Carbon::today();
+
+        // Alert if > 2 weeks and not read
+        $showFlipchartAlert = false;
+        if (!$user->is_read && $user->created_at->diffInDays(now()) >= 14) {
+            $showFlipchartAlert = true;
+        }
+
+        // === SCORE CALCULATIONS ===
+        $checkinScore = CheckIn::whereHas('scoreHistory', fn($q) => 
         $q->where('user_id', $user->id))
         ->with('scoreHistory')
         ->get()
         ->sum(fn($checkIn) => $checkIn->scoreHistory->score ?? 0);
 
-    $streakScore = Streak::whereHas('scoreHistory', fn($q) => 
+        $streakScore = Streak::whereHas('scoreHistory', fn($q) => 
         $q->where('user_id', $user->id))
         ->with('scoreHistory')
         ->get()
         ->sum(fn($streak) => $streak->scoreHistory->score ?? 0);
 
-    $latestStreak = Streak::whereHas('scoreHistory', fn($q) => $q->where('user_id', $user->id))
-        ->latest()
-        ->first();
+        $totalScore = ScoreHistory::where('user_id', $user->id)->sum('score');
 
-    $streakCount = $latestStreak?->streak_count ?? 0;
+        $quitDate = QuitDate::where('user_id', $user->id)->latest()->first();
+        $activeQuitDate = QuitDate::where('user_id', $user->id)->where('is_active', true)->exists();
 
-    $totalScore = ScoreHistory::where('user_id', $user->id)->sum('score');
+        $streakCount = $latestStreak?->streak_count ?? 0;
 
-    $quitDate = QuitDate::where('user_id', $user->id)->latest()->first();
-    $activeQuitDate = QuitDate::where('user_id', $user->id)->where('is_active', true)->exists();
+        // Get all check-ins for streak calculation
+        $allCheckIns = CheckIn::whereHas('scoreHistory', fn($q) => $q->where('user_id', $user->id))
+            ->orderByDesc('created_at')
+            ->get();
 
-    // === WAVE LOGIC ===
-    $wavePartition = 0;
-
-    $checkIns = CheckIn::whereHas('scoreHistory', fn($q) => $q->where('user_id', $user->id))
-    ->orderByDesc('created_at') // count from latest to oldest
-    ->get();
-
-    //count continous checkins
-    if ($checkIns->isNotEmpty()) {
-    $count = 0;
-
-    foreach ($checkIns as $checkIn) {
-        if (strtolower($checkIn->action) === 'not smoke') {
-            if (!$checkIn->is_continous) {
-                break; // stop counting if is_continous = 0 and action = 'not smoke'
+        // Count continuous check-ins
+        $continuousStreakCount = 0;
+        if ($allCheckIns->isNotEmpty()) {
+            $count = 0;
+            foreach ($allCheckIns as $checkIn) {
+                if (strtolower($checkIn->action) === 'not smoke') {
+                    if (!$checkIn->is_continous) {
+                        break; 
+                    }
+                    $count++;
+                } else {
+                    break;
+                }
             }
-            $count++;
-        } else {
-            break; // stop if action is not 'not smoke'
+            $continuousStreakCount = $count;
         }
-    }
 
-    $wavePartition = $count > 0 ? ($count % 7 ?: 7) : 0;
-}
+        $streakInWeeks = floor($continuousStreakCount / 7);
 
-    // Circular wave logic
-    $shiftSteps = [
-        0 => -56, 1 => -62, 2 => -68, 3 => -74,
-        4 => -80, 5 => -86, 6 => -92, 7 => -98,
-    ];
+        $startOfMonth = $today->copy()->startOfMonth();
+        $endOfMonth = $today->copy()->endOfMonth();
 
-    $circularWaveShift = $shiftSteps[$wavePartition];
+        $checkInsThisMonth = $allCheckIns->filter(function ($checkIn) use ($startOfMonth, $endOfMonth) {
+            return $checkIn->created_at->between($startOfMonth, $endOfMonth);
+        });
 
-    // === Badge check ===
+        $totalActivities = $checkInsThisMonth->count();
+
+        $checkInsByDay = $checkInsThisMonth->keyBy(function ($item) {
+            return $item->created_at->format('j');
+        });
+
+        $monthName = $today->format('F');
+        $year = $today->year;
+        $daysInMonth = $today->daysInMonth;
+        $firstDayOfMonth = $startOfMonth->dayOfWeekIso; // 1 (Mon) - 7 (Sun)
+
+        $todayCheckIn = $allCheckIns->first(function ($checkIn) use ($today) {
+            return $checkIn->created_at->isSameDay($today);
+        });
+
+        $hasCheckedInToday = $todayCheckIn !== null;
+
+        //     // === Badge check ===
     $badgeController = new BadgeController();
     $newBadges = $badgeController->checkAndAwardBadges();
 
-    return view('checkin.create', compact(
-        'checkinScore',
-        'streakScore',
-        'totalScore',
-        'quitDate',
-        'wavePartition',
-        'circularWaveShift',
-        'hasCheckedInToday',
-        'streakCount',
-        'activeQuitDate',
-        'showFlipchartAlert',
-        'newBadges'
+
+        return view('checkin.create', compact(
+            'streakInWeeks',
+            'totalActivities',
+            'checkInsByDay',
+            'monthName',
+            'year',
+            'daysInMonth',
+            'firstDayOfMonth',
+            'continuousStreakCount',
+            'hasCheckedInToday',
+            'activeQuitDate',
+            'showFlipchartAlert',
+            'checkinScore',
+            'streakScore',
+            'totalScore',
+            'quitDate',
+            'streakCount',
+            'newBadges'
         ));
-}
+    }
+
+
 
 public function store(Request $request)
 {

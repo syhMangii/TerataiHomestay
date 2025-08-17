@@ -72,6 +72,118 @@ document.addEventListener("DOMContentLoaded", function () {
         font-size: 0.9rem; /* smaller number */
         margin: 0;
     }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #fff;
+        color: #000;
+    }
+    .container {
+        padding: 20px;
+        max-width: 480px;
+        margin: auto;
+    }
+    .header {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 25px;
+    }
+    .stats {
+        display: flex;
+        gap: 40px;
+        margin-bottom: 25px;
+    }
+    .stat-item {
+        text-align: left;
+    }
+    .stat-item .label {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 5px;
+    }
+    .stat-item .value {
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+    .calendar-wrapper {
+        display: flex;
+        gap: 15px;
+    }
+    .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 10px;
+        text-align: center;
+        flex-grow: 1;
+    }
+    .streak-meter {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #feece7;
+        border-radius: 20px;
+        padding: 15px 8px;
+    }
+    .streak-meter-top {
+        font-size: 1.5rem;
+        color: #ff5722;
+        margin-bottom: 10px;
+    }
+    .streak-meter-steps {
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+        gap: 8px;
+        flex-grow: 1;
+        margin-bottom: 10px;
+    }
+    .streak-meter-step i {
+        font-size: 1rem;
+        color: #ddd;
+    }
+    .streak-meter-step i.active {
+        color: #ff8a65;
+    }
+    .streak-meter-bottom {
+        font-size: 1rem;
+        font-weight: 700;
+        background-color: #ff5722;
+        color: #fff;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .day-name {
+        font-weight: 600;
+        color: #888;
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+    }
+    .day-cell {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 500;
+        font-size: 1rem;
+        background-color: #204367;
+        color: #fff;
+    }
+    .day-today {
+        border: 2px solid #fff;
+        background-color: #0d1b2a;
+    }
+    .day-empty {
+        background-color: transparent;
+    }
+    .shoe-icon {
+        font-size: 1.5rem;
+    }
 </style>
 
 <hr><br><br>
@@ -210,131 +322,74 @@ document.addEventListener("DOMContentLoaded", function () {
 
     <hr>
 
-    <!-- Check-in Alert -->
-    <div id="checkinAlert" class="alert d-none mx-3 text-center" role="alert" style="max-width: 500px; margin: 0 auto;"></div>
+    <div class="container">
+    <div class="header">{{ $monthName }} {{ $year }}</div>
 
-
-    <div class="nk-content-inner justify-content-center">
-        <div class="nk-content-body d-flex flex-column align-items-center justify-content-center text-center" style="min-height: 40vh;">
-
-            <!-- Title -->
-            <h5 class="text-center mb-1 fs-7">Smoking Tracker Progress</h5>
-            <!-- {{-- Debug output --}} -->
-<!-- <p class="text-white">Wave Shift: {{ $circularWaveShift }}%</p>
-<p class="text-white">Wave partitions: {{ $wavePartition }}</p> -->
-
-
-
-           <!-- Circular Wave Progress -->
-            <div class="d-flex justify-content-center mt-3 mb-1" style="position: relative; width: 160px; height: 160px;">
-                <div class="loader" style="position: relative; width: 100%; height: 100%;">
-                    <div class="waves" style="--wave-shift: {{ $circularWaveShift }}%; width: 100%; height: 100%;"></div>
-
-                    <!-- MOTIVATION TEXT OVERLAY -->
-                    <div class="position-absolute top-50 start-50 translate-middle text-white text-center" style="z-index: 2;">
-                        <!-- @if ($wavePartition === 0)
-                            <p class="card-text fs-7">Start your transformation now!</p>
-                        @elseif ($wavePartition <= 1)
-                            <p class="card-text fs-7">Great start! Keep going!</p>
-                        @elseif ($wavePartition <= 2)
-                            <p class="card-text fs-7">You're doing well!</p>
-                        @elseif ($wavePartition <= 3)
-                            <p class="card-text fs-7">Halfway there!</p>
-                        @elseif ($wavePartition <= 4)
-                            <p class="card-text fs-7">Almost there!</p>
-                        @elseif ($wavePartition <= 5)
-                            <p class="card-text fs-7">Almost there!</p>
-                        @elseif ($wavePartition <= 6)
-                            <p class="card-text fs-7">Almost there!</p>
-                        @else
-                            <p class="card-text fs-7">So proud of how far you've become!</p>
-                        @endif -->
-
-                            @if ($streakCount == 0)
-                                {{-- First 7-day wave --}}
-                                @switch($wavePartition)
-                                    @case(0)
-                                        <p class="card-text fs-7">Start your transformation now!</p>
-                                        @break
-                                    @case(1)
-                                        <p class="card-text fs-7">Great start! Keep going!</p>
-                                        @break
-                                    @case(2)
-                                        <p class="card-text fs-7">You're doing well!</p>
-                                        @break
-                                    @case(3)
-                                        <p class="card-text fs-7">Halfway there!</p>
-                                        @break
-                                    @case(4)
-                                    @case(5)
-                                    @case(6)
-                                        <p class="card-text fs-7">Almost there!</p>
-                                        @break
-                                    @case(7)
-                                        <p class="card-text fs-7">So proud of how far you've come!</p>
-                                        @break
-                                @endswitch
-                            @elseif ($streakCount == 1)
-                                {{-- Second wave --}}
-                                @switch($wavePartition)
-                                    @case(0)
-                                        <p class="card-text fs-7">Back for round two! You’re on fire!</p>
-                                        @break
-                                    @case(1)
-                                        <p class="card-text fs-7">You’re building strong habits!</p>
-                                        @break
-                                    @case(2)
-                                        <p class="card-text fs-7">Second wave, same strength!</p>
-                                        @break
-                                    @case(3)
-                                        <p class="card-text fs-7">Midweek master!</p>
-                                        @break
-                                    @case(4)
-                                    @case(5)
-                                    @case(6)
-                                        <p class="card-text fs-7">End of wave in sight! Push through!</p>
-                                        @break
-                                    @case(7)
-                                        <p class="card-text fs-7">Two full weeks — outstanding!</p>
-                                        @break
-                                @endswitch
-                            @else
-                                {{-- Third wave and beyond --}}
-                                <p class="card-text fs-7">
-                                    Streak {{ $streakCount }}, Day {{ $wavePartition }} — you’re unstoppable. Keep up the greatness!
-                                </p>
-                            @endif
-                    </div>
-                </div>
-            </div>
-            <!-- Vertical Wave Progress -->
-            <!-- <p class="text-white">Checked in for {{ $wavePartition }} days</p> -->
-
-<div class="wave-container mb-2 mt-3"> <!-- Reduced bottom margin -->
-    @for ($i = 1; $i <= 7; $i++)
-        <div class="wave-wrapper">
-            <div class="wave-part"
-                style="height: {{ $i <= $wavePartition ? ($i * 10 + 30) : 20 }}px;
-                       background-color: {{ $i <= $wavePartition ? '#1e92ff' : '#fff' }};
-                       transition: height 0.3s;">
-            </div>
-            <small class="day-label text-white">D{{ $i }}</small>
+    <div class="stats">
+        <div class="stat-item">
+            <div class="label">Your Streak</div>
+            <div class="value">{{ $streakInWeeks }} Weeks</div>
         </div>
-    @endfor
-</div>
+        <div class="stat-item">
+            <div class="label">Streak Activities</div>
+            <div class="value">{{ $totalActivities }}</div>
+        </div>
+    </div>
 
-            <!-- Check-In Button -->
-            <div class="w-100 d-flex justify-content-center pt-4">
-                @if ($hasCheckedInToday)
-                    <button type="button" class="btn btn-outline-light btn-lg" data-bs-toggle="modal" data-bs-target="#alreadyCheckedModal" disabled>
-                        Checked-In
-                    </button>
-                @else
-                    <button type="button" class="btn btn-primary btn-lg mb-3" data-bs-toggle="modal" data-bs-target="#smokeModal">
-                        Daily Check-In
-                    </button>
-                @endif
+    <div class="calendar-wrapper">
+        <div class="calendar-grid">
+            @foreach(['M', 'T', 'W', 'T', 'F', 'S', 'S'] as $day)
+                <div class="day-name">{{ $day }}</div>
+            @endforeach
+
+            @for ($i = 1; $i < $firstDayOfMonth; $i++)
+                <div class="day-cell day-empty"></div>
+            @endfor
+
+            @for ($day = 1; $day <= $daysInMonth; $day++)
+                @php
+                    $isToday = ($day == now()->day && $monthName == now()->format('F') && $year == now()->year);
+                    $isCheckedIn = isset($checkInsByDay[$day]);
+                @endphp
+                <div class="day-cell {{ $isToday ? 'day-today' : '' }} {{ $isCheckedIn ? 'day-checked-in' : '' }}">
+                    @if($isCheckedIn)
+                        <i class="bi bi-fire shoe-icon"></i>
+                    @else
+                        {{ $day }}
+                    @endif
+                </div>
+            @endfor
+        </div>
+        <div class="streak-meter">
+            <div class="streak-meter-top">
+                <i class="bi bi-fire"></i>
             </div>
+            <div class="streak-meter-steps">
+                @for ($i = 7; $i >= 1; $i--)
+                    <div class="streak-meter-step">
+                        <i class="bi bi-circle-fill {{ $i <= ($continuousStreakCount % 7) ? 'active' : '' }}"></i>
+                    </div>
+                @endfor
+            </div>
+            <div class="streak-meter-bottom">
+                {{ $continuousStreakCount }}
+            </div>
+        </div>
+    </div>
+
+        <!-- Check-In Button -->
+    <div class="w-100 d-flex justify-content-center pt-4">
+        @if ($hasCheckedInToday)
+                    <button type="button" class="btn btn-outline-light btn-lg" data-bs-toggle="modal" data-bs-target="#alreadyCheckedModal" disabled>
+                Checked-In
+            </button>
+        @else
+                    <button type="button" class="btn btn-primary btn-lg mb-3" data-bs-toggle="modal" data-bs-target="#smokeModal">
+                Daily Check-In
+            </button>
+        @endif
+    </div>
+</div>
 
             <hr class="w-100 mt-4" />
         </div>
@@ -391,49 +446,78 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById('btn-no-smoke').addEventListener('click', function () {
-        sendCheckIn('not smoke');
-    });
+    // Ensure we are targeting the correct modal buttons
+    const smokeModal = document.getElementById('smokeModal');
+    if (smokeModal) {
+        const noSmokeButton = smokeModal.querySelector('#btn-no-smoke');
+        const smokeButton = smokeModal.querySelector('#btn-smoke');
 
-    document.getElementById('btn-smoke').addEventListener('click', function () {
-        sendCheckIn('smoke');
-    });
+        if(noSmokeButton) {
+            noSmokeButton.addEventListener('click', function () {
+                sendCheckIn('not smoke');
+            });
+        }
 
-    function sendCheckIn(action) {
-        fetch("{{ route('checkin.store') }}", {
-            method: "POST",
-            headers: {
-                "X-CSRF-TOKEN": '{{ csrf_token() }}',
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ action: action })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message) {
-                const alertBox = document.getElementById("checkinAlert");
-                alertBox.classList.remove("d-none", "alert-danger", "alert-warning");
-                alertBox.classList.add("alert", "alert-success");
-                alertBox.innerHTML = data.message;
-
-                setTimeout(() => {
-                    alertBox.classList.add("d-none");
-                }, 5000);
-            }
-
-            // ✅ Safely get modal instance and hide
-            const modalEl = document.getElementById('smokeModal');
-            let modal = bootstrap.Modal.getInstance(modalEl);
-            if (!modal) {
-                modal = new bootstrap.Modal(modalEl);
-            }
-            modal.hide();
-
-            setTimeout(() => {
-                location.reload();
-            }, 500);
-        })
-        .catch(error => console.error('Error:', error));
+        if(smokeButton) {
+            smokeButton.addEventListener('click', function () {
+                sendCheckIn('smoke');
+            });
+        }
     }
 });
+
+function sendCheckIn(action) {
+    fetch("{{ route('checkin.store') }}", {
+        method: "POST",
+        headers: {
+            "X-CSRF-TOKEN": '{{ csrf_token() }}',
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ action: action })
+    })
+    .then(response => {
+        if (!response.ok) {
+            console.error('Server responded with an error:', response.status);
+        }
+        return response.json();
+    })
+    .then(data => {
+        const modalEl = document.getElementById('smokeModal');
+        if (modalEl) {
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            if (modal) {
+                modal.hide();
+            }
+        }
+
+        if (data.message) {
+            const alertBox = document.getElementById("checkinAlert");
+            if (alertBox) { // Check if the element exists
+                alertBox.classList.remove("d-none");
+                alertBox.classList.add("alert", "alert-success");
+                alertBox.innerHTML = data.message;
+                setTimeout(() => {
+                    alertBox.classList.add("d-none");
+                }, 3000);
+            }
+        }
+
+        // Reload the page after the modal is hidden
+        setTimeout(() => {
+            location.reload();
+        }, 500);
+    })
+    .catch(error => {
+        console.error('Error during fetch:', error);
+        const alertBox = document.getElementById("checkinAlert");
+        if (alertBox) {
+            alertBox.classList.remove("d-none");
+            alertBox.classList.add("alert", "alert-danger");
+            alertBox.innerHTML = 'An error occurred. Please try again.';
+            setTimeout(() => {
+                alertBox.classList.add("d-none");
+            }, 5000);
+        }
+    });
+}
 </script>

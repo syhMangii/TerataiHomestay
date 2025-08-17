@@ -145,7 +145,7 @@
                 @endphp
                 <div class="day-cell {{ $isToday ? 'day-today' : '' }} {{ $isCheckedIn ? 'day-checked-in' : '' }}">
                     @if($isCheckedIn)
-                        <i class="bi bi-person-walking shoe-icon"></i>
+                        <i class="bi bi-fire shoe-icon"></i>
                     @else
                         {{ $day }}
                     @endif
