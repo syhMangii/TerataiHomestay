@@ -73,33 +73,7 @@ Route::middleware(['admin'])->group(function () {
     Route::post('/admin/patients/add', [AdminController::class, 'saveUser'])->name('admin.saveUser');
 
 
-        Route::get('homestays', [HomestayController::class, 'index']);
-        Route::get('createhomestays', [HomestayController::class, 'create']);
-        Route::POST('storehomestays', [HomestayController::class, 'store']);
-        Route::get('edithomestays/{id}', [HomestayController::class, 'edit']);
-        Route::POST('updatehomestays/{id}', [HomestayController::class, 'update']);
-        Route::get('viewhomestays/{id}', [HomestayController::class, 'show']);
-        Route::any('deletehomestays/{id}', [HomestayController::class, 'destroy']);
-        Route::get('bookinglist', [AdminController::class, 'bookinglist']);
-        Route::get('viewbookingadmin/{id}', [AdminController::class, 'viewbookingadmin']);
-        Route::get('/booking/{id}/download-receipt-admin', [AdminController::class, 'downloadReceipt']);
-
-        Route::get('mysupportadmin',[AdminController::class, 'mysupportadmin']);
-        Route::get('customers',[AdminController::class, 'customers']);
-    Route::post('sendReplyAdmin/{id}',[AdminController::class, 'replyAdmin']);
-
-    Route::get('createbookingAdmin',[AdminController::class, 'createBooking']);
-    Route::POST('storeBookingAdmin',[AdminController::class, 'store']);
-    Route::get('editbookingAdmin/{id}',[AdminController::class, 'edit']);
-    Route::POST('updateBookingAdmin/{id}',[AdminController::class, 'update']);
-    Route::any('deleteBookingadmin/{id}',[AdminController::class, 'destroyBooking']);
-
-    Route::get('createCustomer',[AdminController::class, 'createCustomer']);
-    Route::POST('storeCustomer',[AdminController::class, 'storeCustomer']);
-    Route::get('editCustomer/{id}',[AdminController::class, 'editCustomer']);
-    Route::get('viewCustomer/{id}',[AdminController::class, 'viewCustomer']);
-    Route::POST('updateCustomer/{id}',[AdminController::class, 'updateCustomer']);
-    Route::any('deletecustomer/{id}',[AdminController::class, 'destroyCustomer']);
+        
 
 
 });
@@ -118,21 +92,9 @@ Route::middleware(['customer'])->group(function () {
     Route::post('/slides/confirm-read', [FlipchartController::class, 'confirmRead'])->name('slides.confirm-read');
 
     Route::post('/quit-dates', [QuitDateController::class, 'store'])->name('quit-dates.store');
+    Route::get('/streak', [\App\Http\Controllers\StreakController::class, 'index'])->name('streak.index');
 
-    Route::get('homeusr',[CustomerController::class, 'index']);
-    Route::get('calendar',[CustomerController::class, 'calendar']);
-    Route::get('createbooking',[CustomerController::class, 'create']);
-    Route::POST('storeBooking',[CustomerController::class, 'store']);
-    Route::get('editbooking/{id}',[CustomerController::class, 'edit']);
-    Route::POST('updateBooking/{id}',[CustomerController::class, 'update']);
-    Route::get('viewbooking/{id}',[CustomerController::class, 'show']);
-    Route::any('deletebooking/{id}',[CustomerController::class, 'destroy']);
-    Route::get('packagelist',[CustomerController::class, 'packagelist']);
-    Route::get('custsupport',[CustomerController::class, 'custsupport']);
-    Route::post('sendReplyCustomer/{id}',[CustomerController::class, 'replyCustomer']);
-    Route::get('profile',[CustomerController::class, 'profile']);
-    Route::post('updProfile',[CustomerController::class, 'updProfile']);
-    Route::get('/booking/{id}/download-receipt', [CustomerController::class, 'downloadReceipt'])->name('download.receipt');
+    
     
     });
 
