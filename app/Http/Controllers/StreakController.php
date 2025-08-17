@@ -15,23 +15,40 @@ class StreakController extends Controller
         $user = Auth::user();
         $today = Carbon::today();
 
-        $latestStreak = Streak::whereHas('scoreHistory', fn($q) => $q->where('user_id', $user->id))
-            ->latest()
-            ->first();
+        // Get all check-ins for streak calculation
+        $allCheckIns = CheckIn::whereHas('scoreHistory', fn($q) => $q->where('user_id', $user->id))
+            ->orderByDesc('created_at')
+            ->get();
 
-        $streakInDays = $latestStreak?->streak_count ?? 0;
-        $streakInWeeks = floor($streakInDays / 7);
+        // Count continuous check-ins
+        $continuousStreakCount = 0;
+        if ($allCheckIns->isNotEmpty()) {
+            $count = 0;
+            foreach ($allCheckIns as $checkIn) {
+                if (strtolower($checkIn->action) === 'not smoke') {
+                    if (!$checkIn->is_continous) {
+                        break; 
+                    }
+                    $count++;
+                } else {
+                    break;
+                }
+            }
+            $continuousStreakCount = $count;
+        }
+
+        $streakInWeeks = floor($continuousStreakCount / 7);
 
         $startOfMonth = $today->copy()->startOfMonth();
         $endOfMonth = $today->copy()->endOfMonth();
 
-        $checkIns = CheckIn::whereHas('scoreHistory', fn($q) => $q->where('user_id', $user->id))
-            ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
-            ->get();
+        $checkInsThisMonth = $allCheckIns->filter(function ($checkIn) use ($startOfMonth, $endOfMonth) {
+            return $checkIn->created_at->between($startOfMonth, $endOfMonth);
+        });
 
-        $totalActivities = $checkIns->count();
+        $totalActivities = $checkInsThisMonth->count();
 
-        $checkInsByDay = $checkIns->keyBy(function ($item) {
+        $checkInsByDay = $checkInsThisMonth->keyBy(function ($item) {
             return $item->created_at->format('j');
         });
 
@@ -39,6 +56,12 @@ class StreakController extends Controller
         $year = $today->year;
         $daysInMonth = $today->daysInMonth;
         $firstDayOfMonth = $startOfMonth->dayOfWeekIso; // 1 (Mon) - 7 (Sun)
+
+        $todayCheckIn = $allCheckIns->first(function ($checkIn) use ($today) {
+            return $checkIn->created_at->isSameDay($today);
+        });
+
+        $hasCheckedInToday = $todayCheckIn !== null;
 
         return view('checkin.streak', compact(
             'streakInWeeks',
@@ -48,7 +71,8 @@ class StreakController extends Controller
             'year',
             'daysInMonth',
             'firstDayOfMonth',
-            'streakInDays'
+            'continuousStreakCount',
+            'hasCheckedInToday'
         ));
     }
 }
