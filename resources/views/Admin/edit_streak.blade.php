@@ -1,8 +1,5 @@
 @include('Include.appadmin')
 
-<div class="nk-content" style="background-color: #0d1b2a; min-height: 100vh; padding: 20px;">
-    <div class="container">
-
         <div class="mb-4">
             <a href="{{ url()->previous() }}" class="btn btn-secondary" style="background-color: #22304a; color: #fff; border-radius: 6px;">
                 ← Back
@@ -23,8 +20,5 @@
                 <button type="submit" class="btn btn-success">Update Streak</button>
             </form>
         </div>
-
-    </div>
-</div>
 
 @include('Include.footer')

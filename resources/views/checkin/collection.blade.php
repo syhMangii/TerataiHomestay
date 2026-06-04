@@ -49,7 +49,7 @@
                 <p class="badge-label mb-0 {{ $earned ? 'text-gold' : 'text-white' }} text-nowrap">{{ $badge->name }}</p>
             </div>
 
-            @if (in_array($badgeCount, [2, 4, 7, 14]))
+            @if (in_array($badgeCount, [2, 4, 7]))
                 </div><hr><div class="row justify-content-center">
             @endif
         @endforeach
@@ -57,7 +57,7 @@
 </div>
 
 <!-- Sponsor Section -->
-<div class="text-center mt-2 mb-3">
+<!-- <div class="text-center mt-2 mb-3">
     <figure>
         <blockquote class="blockquote">
             <p>Enjoy Rewards Powered</p>
@@ -67,6 +67,6 @@
         </figcaption>
     </figure>
     <img src="zus-logo.png" alt="Zus Coffee Logo" class="img-fluid" style="max-height: 180px;">
-</div>
+</div> -->
 
 @include('Include.footer') <!-- Your footer -->

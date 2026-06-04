@@ -1,11 +1,5 @@
 @include('Include.appadmin')
 
-<!-- content @s -->
-<div class="nk-content">
-    <div class="container">
-        <div class="nk-content-inner">
-            <div class="nk-content-body">
-
                 @if($message = Session::get('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <strong>Success!</strong>  {{ session()->get('success') }}
@@ -162,10 +156,6 @@
                         </table>
                     </div><!-- .card -->
                 </div><!-- .nk-block -->
-            </div>
-        </div>
-    </div>
-</div> <!-- .nk-content -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
 <script>
     $(document).ready(function () {

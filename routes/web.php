@@ -53,6 +53,7 @@ Route::middleware(['admin'])->group(function () {
     Route::delete('/admin/checkin/{id}/delete', [AdminController::class, 'deleteCheckin'])->name('admin.checkin.delete');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
+    Route::get('/dashboard/school/{school}', [DashboardController::class, 'schoolPatients'])->name('dashboard.school');
     Route::get('/admin/patients', [AdminController::class, 'indexPatients'])->name('admin.patients');
     Route::get('/admin/patient-details/{user}', [AdminController::class, 'userDetails'])->name('admin.userDetails');
     Route::get('/admin/user/{id}/edit', [AdminController::class, 'editUser'])->name('admin.editUser');

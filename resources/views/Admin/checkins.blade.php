@@ -1,10 +1,5 @@
 @include('Include.appadmin')
 
-<div class="nk-content">
-    <div class="container">
-        <div class="nk-content-inner">
-            <div class="nk-content-body">
-
                 @if($message = Session::get('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <strong>Success!</strong>  {{ session()->get('success') }}
@@ -66,10 +61,5 @@
                         </table>
                     </div>
                 </div>
-
-            </div>
-        </div>
-    </div>
-</div>
 
 @include('Include.footer')

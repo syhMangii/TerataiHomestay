@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>NiQuiTeen — Patient Details</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/app.css" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="assets/data.js"></script>
+<style>
+  .pd-back { display: inline-flex; align-items: center; gap: 6px; color: var(--on-dark-2); font-size: 13px; }
+  .pd-back:hover { color: var(--on-dark); }
+  .pd-back .ic { width: 16px; height: 16px; }
+
+  .pd-section h4 { margin: 0 0 14px; font-size: 14px; font-weight: 700; letter-spacing: -0.005em; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+  .pd-section h4 .meta { font-weight: 500; color: var(--ink-3); font-size: 12px; margin-left: auto; }
+
+  .pd-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 14px; }
+  @media (max-width: 1180px) { .pd-grid { grid-template-columns: 1fr; } }
+
+  .pill-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  @media (max-width: 760px) { .pill-row { grid-template-columns: 1fr 1fr; } }
+
+  .source-chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 8px; border-radius: 6px; font-size: 11.5px; font-weight: 500; background: #F1F3F8; color: var(--ink-2); }
+  .source-chip.checkin { background: var(--teal-bg); color: var(--teal-ink); }
+  .source-chip.quiz    { background: #EAF1FF; color: #2E58A6; }
+  .source-chip.streak  { background: var(--orange-2); color: var(--orange-3); }
+
+  .action-tag { display: inline-flex; align-items: center; gap: 6px; padding: 3px 8px; border-radius: 6px; font-size: 11.5px; font-weight: 500; }
+  .action-tag.good   { background: var(--good-bg);   color: var(--good); }
+  .action-tag.warn   { background: var(--orange-2);  color: var(--orange-3); }
+  .action-tag.bad    { background: var(--danger-bg); color: var(--danger); }
+
+  .num-cell { font-variant-numeric: tabular-nums; font-weight: 600; }
+
+  .heatmap-wrap { padding: 4px 2px 0; }
+  .heat-row { display: flex; gap: 14px; align-items: flex-start; }
+  .heat-row .dow { display: grid; grid-template-rows: repeat(7, 1fr); gap: 4px; font-size: 10px; color: var(--ink-3); padding-top: 4px; }
+  .heat-grid {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(7, 14px);
+    grid-auto-columns: 14px;
+    gap: 4px;
+  }
+  .heat-grid .cell { border-radius: 3px; background: #F1F3F8; cursor: pointer; transition: transform .12s; }
+  .heat-grid .cell:hover { transform: scale(1.18); outline: 2px solid var(--ink); outline-offset: -1px; }
+  .heat-grid .cell.l1 { background: #D8F3EC; }
+  .heat-grid .cell.l2 { background: #ADE7D5; }
+  .heat-grid .cell.l3 { background: #66CFA9; }
+  .heat-grid .cell.l4 { background: var(--good); }
+  .heat-grid .cell.miss { background: #F4B6B6; }
+  .heat-grid .cell.future { background: transparent; border: 1px dashed #D6DBE6; cursor: default; }
+
+  .pd-notes-row { display: flex; align-items: flex-start; gap: 12px; padding: 12px; background: var(--surface-2); border: 1px solid var(--hairline); border-radius: 10px; }
+  .pd-notes-row + .pd-notes-row { margin-top: 8px; }
+  .pd-notes-row .meta { font-size: 11.5px; color: var(--ink-3); margin-bottom: 4px; display: flex; gap: 8px; align-items: center; }
+  .pd-notes-row .body { font-size: 13.5px; color: var(--ink-2); line-height: 1.5; }
+
+  .borang-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  @media (max-width: 760px) { .borang-cards { grid-template-columns: 1fr; } }
+  .borang-card { border: 1px solid var(--hairline); border-radius: 12px; padding: 14px 16px; background: #fff; display: flex; flex-direction: column; gap: 8px; }
+  .borang-card .title { font-weight: 600; font-size: 14px; color: var(--ink); }
+  .borang-card .meta  { font-size: 12px; color: var(--ink-3); }
+  .borang-card .row   { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="assets/shell.jsx"></script>
+<script type="text/babel" data-presets="env,react">
+const { useState, useMemo } = React;
+const I = window.NQ_Icons;
+const Sidebar = window.NQ_Sidebar;
+const Topbar  = window.NQ_Topbar;
+const PATIENTS = window.NQ_PATIENTS;
+const SCHOOLS  = window.NQ_SCHOOLS;
+const DETAIL   = window.NQ_PATIENT_DETAIL;
+const schoolName = (id) => (SCHOOLS.find(s=>s.id===id) || {}).name || '—';
+
+function StatusBadge({ s, big }) {
+  return <span className={"badge " + s + (big ? ' solid' : '')}>{s}</span>;
+}
+
+/* -------- Sparkline (score over time) -------- */
+function Sparkline({ data, color = '#5DDAD3' }) {
+  const W = 600, H = 140, PAD = 18;
+  const xs = data.map((_, i) => PAD + i * ((W - PAD * 2) / Math.max(1, data.length - 1)));
+  const cumulative = data.reduce((acc, d) => {
+    acc.push((acc[acc.length-1] || 0) + d.score);
+    return acc;
+  }, []);
+  const maxY = Math.max(...cumulative, 1);
+  const ys = cumulative.map(v => H - PAD - (v / maxY) * (H - PAD * 2));
+  const path = xs.map((x, i) => `${i === 0 ? 'M' : 'L'} ${x.toFixed(1)} ${ys[i].toFixed(1)}`).join(' ');
+  const area = `${path} L ${xs[xs.length-1].toFixed(1)} ${H - PAD} L ${xs[0].toFixed(1)} ${H - PAD} Z`;
+
+  return (
+    <svg className="spark" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="sparkfill" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%"  stopColor={color} stopOpacity="0.32"/>
+          <stop offset="100%" stopColor={color} stopOpacity="0"/>
+        </linearGradient>
+      </defs>
+      {/* gridlines */}
+      {[0.25, 0.5, 0.75].map((g, i) => (
+        <line key={i} x1={PAD} x2={W-PAD} y1={PAD + g*(H-PAD*2)} y2={PAD + g*(H-PAD*2)} stroke="#EEF0F4"/>
+      ))}
+      <path d={area} fill="url(#sparkfill)"/>
+      <path d={path} fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+      {xs.map((x, i) => (
+        <g key={i}>
+          <circle cx={x} cy={ys[i]} r="3.5" fill="#fff" stroke={color} strokeWidth="2"/>
+        </g>
+      ))}
+      {/* date axis */}
+      {data.map((d, i) => i % 2 === 0 ? (
+        <text key={"t"+i} x={xs[i]} y={H - 3} textAnchor="middle" fontSize="10" fill="#8893AB" fontFamily="JetBrains Mono">
+          {d.date.slice(5)}
+        </text>
+      ) : null)}
+    </svg>
+  );
+}
+
+/* -------- Heatmap (75-day check-in calendar, M–S rows) -------- */
+function Heatmap({ cells }) {
+  // cells: 75 entries in chronological order
+  const cls = (v) => v === 'miss' ? 'miss' : v === 'future' ? 'future' : v === 0 ? '' : 'l' + Math.min(4, v);
+  return (
+    <div className="heatmap-wrap">
+      <div className="heat-row">
+        <div className="dow">
+          <span>M</span><span></span><span>W</span><span></span><span>F</span><span></span><span>S</span>
+        </div>
+        <div className="heat-grid">
+          {cells.map((v, i) => {
+            const title = v === 'miss' ? 'Relapse marked' : v === 'future' ? 'Upcoming' : v === 0 ? 'No check-in' : `Check-in score +${v}`;
+            return <div key={i} className={"cell " + cls(v)} title={`Day ${i+1} · ${title}`}/>;
+          })}
+        </div>
+      </div>
+      <div className="heatmap-legend">
+        <span style={{marginRight:6}}>Less</span>
+        <span className="swatch" style={{background:'#F1F3F8'}}/>
+        <span className="swatch" style={{background:'#D8F3EC'}}/>
+        <span className="swatch" style={{background:'#ADE7D5'}}/>
+        <span className="swatch" style={{background:'#66CFA9'}}/>
+        <span className="swatch" style={{background:'var(--good)'}}/>
+        <span style={{marginLeft:6}}>More</span>
+        <span style={{marginLeft:16, display:'inline-flex', alignItems:'center', gap:6}}>
+          <span className="swatch" style={{background:'#F4B6B6'}}/> Relapse
+        </span>
+        <span style={{marginLeft:12, display:'inline-flex', alignItems:'center', gap:6}}>
+          <span className="swatch" style={{background:'#fff', border:'1px dashed #D6DBE6'}}/> Upcoming
+        </span>
+      </div>
+    </div>
+  );
+}
+
+/* -------- Score table -------- */
+function ScoreTable({ rows }) {
+  const total = rows.reduce((s,r)=>s+r.score, 0);
+  return (
+    <table className="tbl">
+      <thead>
+        <tr>
+          <th style={{width:'30%'}}>Date</th>
+          <th>Source</th>
+          <th style={{textAlign:'right'}}>Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r, i) => (
+          <tr key={i}>
+            <td><span className="date">{r.date}</span></td>
+            <td>
+              <span className={"source-chip " + (r.source === 'Check-In' ? 'checkin' : r.source === 'Quiz' ? 'quiz' : 'streak')}>
+                {r.source}
+              </span>
+            </td>
+            <td style={{textAlign:'right'}}><span className="num-cell">+{r.score}</span></td>
+          </tr>
+        ))}
+        <tr>
+          <td colSpan="2" style={{textAlign:'right', fontWeight:600}}>Total accumulated</td>
+          <td style={{textAlign:'right'}}><span className="num-cell" style={{fontSize:15}}>{total}</span></td>
+        </tr>
+      </tbody>
+    </table>
+  );
+}
+
+/* -------- Check-in log table -------- */
+function CheckInTable({ rows }) {
+  const tag = (a) => {
+    if (a === 'not smoke') return <span className="action-tag good"><I.check style={{width:11,height:11}}/> not smoke</span>;
+    if (a.startsWith('urge')) return <span className="action-tag warn"><I.flame style={{width:11,height:11}}/> {a}</span>;
+    return <span className="action-tag bad"><I.x style={{width:11,height:11}}/> {a}</span>;
+  };
+  return (
+    <table className="tbl">
+      <thead>
+        <tr><th style={{width:'30%'}}>Date</th><th>Action</th><th>Note</th></tr>
+      </thead>
+      <tbody>
+        {rows.map((r, i) => (
+          <tr key={i}>
+            <td><span className="date">{r.date}</span></td>
+            <td>{tag(r.action)}</td>
+            <td style={{color:'var(--ink-2)', fontStyle: r.note ? 'italic' : 'normal'}}>{r.note || '—'}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+function StreakTable({ rows }) {
+  return (
+    <table className="tbl">
+      <thead>
+        <tr><th style={{width:'30%'}}>Date</th><th>Streak count</th><th>Event</th></tr>
+      </thead>
+      <tbody>
+        {rows.map((r, i) => (
+          <tr key={i}>
+            <td><span className="date">{r.date}</span></td>
+            <td><span className="num-cell">{r.count} day{r.count===1?'':'s'}</span></td>
+            <td style={{color:'var(--ink-2)'}}>{r.action}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+/* -------- Overview tab content -------- */
+function Overview({ p, d }) {
+  const totalScore = d.scoreHistory.reduce((s,r)=>s+r.score,0);
+  const checkInCount = d.checkInLog.length;
+  const longestStreak = d.streakLog.length ? Math.max(...d.streakLog.map(r=>r.count)) : 0;
+
+  return (
+    <div className="pd-grid">
+      <div style={{display:'flex', flexDirection:'column', gap:14}}>
+        <div className="panel">
+          <div className="panel-head">
+            <h3>Score over time</h3>
+            <div className="sub">Cumulative score from check-ins, quizzes & streak bonuses</div>
+          </div>
+          <div className="panel-body">
+            <div className="pill-row" style={{marginBottom: 16}}>
+              <div className="pill"><div className="k">Total score</div><div className="v">{totalScore}</div></div>
+              <div className="pill"><div className="k">Check-ins</div><div className="v">{checkInCount}</div></div>
+              <div className="pill"><div className="k">Longest streak</div><div className="v">{longestStreak}<span style={{fontSize:12,color:'var(--ink-3)',fontWeight:500,marginLeft:3}}>d</span></div></div>
+              <div className="pill"><div className="k">Slips logged</div><div className="v">{d.checkInLog.filter(r=>r.action==='slip').length}</div></div>
+            </div>
+            <Sparkline data={d.scoreHistory}/>
+          </div>
+        </div>
+
+        <div className="panel">
+          <div className="panel-head">
+            <h3>Check-in calendar</h3>
+            <div className="sub">Last 75 days · color intensity = check-in score</div>
+          </div>
+          <div className="panel-body">
+            <Heatmap cells={d.checkIns}/>
+          </div>
+        </div>
+      </div>
+
+      <div style={{display:'flex', flexDirection:'column', gap:14}}>
+        <div className="panel">
+          <div className="panel-head"><h3>Patient information</h3></div>
+          <div className="panel-body">
+            <div className="info-list">
+              <div className="row"><span className="k">Full name</span><span className="v">{p.name}</span></div>
+              <div className="row"><span className="k">Username</span><span className="v">@{p.username}</span></div>
+              <div className="row"><span className="k">Email</span><span className="v"><a href={`mailto:${p.email}`}>{p.email}</a></span></div>
+              <div className="row"><span className="k">IC</span><span className="v">{p.ic}</span></div>
+              <div className="row"><span className="k">Age / Gender</span><span className="v">{p.age} · {p.gender==='F'?'Female':'Male'}</span></div>
+              <div className="row"><span className="k">Class</span><span className="v">{p.class}</span></div>
+              <div className="row"><span className="k">School</span><span className="v">{schoolName(p.schoolId)}</span></div>
+              <div className="row"><span className="k">Enrolled</span><span className="v">{p.createdAt}</span></div>
+              <div className="row"><span className="k">Quit date</span><span className="v">{p.quitDate}</span></div>
+              <div className="row"><span className="k">Guardian</span><span className="v">{p.guardian}</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div className="panel">
+          <div className="panel-head">
+            <h3>Clinical notes</h3>
+            <div className="hint"><I.plus style={{width:12,height:12}}/> add note</div>
+          </div>
+          <div className="panel-body">
+            {d.notes.map((n, i) => (
+              <div className="pd-notes-row" key={i}>
+                <div className="avatar-sm teal" style={{width:30, height:30, fontSize:11}}>KP</div>
+                <div style={{flex:1, minWidth:0}}>
+                  <div className="meta"><b style={{color:'var(--ink)'}}>{n.by}</b> · <span>{n.date}</span></div>
+                  <div className="body">{n.text}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CheckInsTab({ d }) {
+  return (
+    <div className="panel">
+      <div className="panel-head">
+        <h3>Check-in log</h3>
+        <div className="sub">All recorded check-ins · most recent first</div>
+      </div>
+      <CheckInTable rows={d.checkInLog}/>
+    </div>
+  );
+}
+
+function ScoreTab({ d }) {
+  return (
+    <div className="panel">
+      <div className="panel-head">
+        <h3>Score histories</h3>
+        <div className="sub">Source breakdown · running total at bottom</div>
+      </div>
+      <ScoreTable rows={d.scoreHistory}/>
+    </div>
+  );
+}
+
+function StreakTab({ d }) {
+  return (
+    <div className="panel">
+      <div className="panel-head">
+        <h3>Streak log</h3>
+        <div className="sub">Milestones and streak resets</div>
+      </div>
+      <StreakTable rows={d.streakLog}/>
+    </div>
+  );
+}
+
+function BorangTab({ p }) {
+  const borangs = [
+    { id: '02-2020', title: 'Borang PPIM 02-2020', desc: 'Penilaian awal & Fagerström', status: 'completed', date: '2026-04-20', score: '6 / 10 (heavy)' },
+    { id: 'fu-1',   title: 'Follow-up #1',        desc: '4-week assessment',            status: 'completed', date: '2026-05-09', score: '—' },
+    { id: 'fu-2',   title: 'Follow-up #2',        desc: '8-week assessment',            status: 'pending',   date: '2026-06-06', score: '—' },
+    { id: 'consent', title: 'Patient consent',    desc: 'PDPA + parental consent',      status: 'completed', date: '2025-09-14', score: '—' },
+  ];
+  return (
+    <div className="panel">
+      <div className="panel-head">
+        <h3>Forms (Borang PPIM)</h3>
+        <button className="btn sm"><I.plus style={{width:13,height:13}}/> New form</button>
+      </div>
+      <div className="panel-body">
+        <div className="borang-cards">
+          {borangs.map(b => (
+            <div className="borang-card" key={b.id}>
+              <div className="row">
+                <div>
+                  <div className="title">{b.title}</div>
+                  <div className="meta">{b.desc}</div>
+                </div>
+                <span className={"badge " + (b.status === 'completed' ? 'active' : 'pending')}>{b.status}</span>
+              </div>
+              <div className="row" style={{color:'var(--ink-3)', fontSize:12}}>
+                <span>{b.date}</span>
+                <span>{b.score}</span>
+              </div>
+              <div className="row">
+                <button className="btn sm"><I.view style={{width:13,height:13}}/> View</button>
+                <button className="btn sm ghost"><I.dl style={{width:13,height:13}}/> PDF</button>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div style={{marginTop:14, fontSize:12, color:'var(--ink-3)'}}>
+          Flipchart read-status: <span className={"badge " + (p.flipchart==='read'?'read':'unread')} style={{marginLeft:6}}>{p.flipchart}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  const idParam = new URLSearchParams(location.search).get('id');
+  const id = idParam ? Number(idParam) : 80;
+  const p = PATIENTS.find(x => x.id === id) || PATIENTS[0];
+  const d = DETAIL[p.id] || DETAIL[80]; // fall back to alia's mock detail
+  const [tab, setTab] = useState('overview');
+  const [edit, setEdit] = useState(false);
+
+  const initials = p.name.split(' ').slice(0,2).map(x=>x[0]).join('').toUpperCase();
+  const heroToneTeal = ['active','quit'].includes(p.status);
+  const cumScore = d.scoreHistory.reduce((s,r)=>s+r.score,0);
+
+  return (
+    <div className="app">
+      <Sidebar active="patients"/>
+      <main className="main">
+        <Topbar crumbs={[
+          { label: 'KKM Selangor' },
+          { label: 'KP Sri Kembangan', bold: true },
+          { label: 'Manage Patient', href: 'Manage Patient.html' },
+          { label: p.name }
+        ]}/>
+        <div className="page">
+          <a href="Manage Patient.html" className="pd-back">
+            <I.back className="ic"/> Back to patient list
+          </a>
+
+          {/* Hero */}
+          <div className="hero" data-screen-label="Patient hero">
+            <div className={"avatar-lg " + (heroToneTeal ? 'teal' : '')}>{initials}</div>
+            <div className="who">
+              <div style={{display:'flex', alignItems:'center', gap:10, flexWrap:'wrap'}}>
+                <div className="name">{p.name}</div>
+                <StatusBadge s={p.status} big/>
+                <span className="row-id" style={{fontFamily:"'JetBrains Mono', monospace", color:'var(--ink-3)', fontSize:12}}>
+                  ID #{p.id.toString().padStart(4,'0')}
+                </span>
+              </div>
+              <div className="meta">
+                <span>@{p.username}</span>
+                <span className="dotsep"/>
+                <span>{p.class}</span>
+                <span className="dotsep"/>
+                <span>{schoolName(p.schoolId)}</span>
+                <span className="dotsep"/>
+                <span>Age {p.age} · {p.gender==='F'?'Female':'Male'}</span>
+                <span className="dotsep"/>
+                <a href={`mailto:${p.email}`} style={{color:'var(--orange-3)'}}>{p.email}</a>
+              </div>
+            </div>
+            <div className="hero-actions">
+              <button className="btn"><I.mail style={{width:14,height:14}}/> Message</button>
+              <button className="btn"><I.dl style={{width:14,height:14}}/> Export</button>
+              <button className="btn teal" onClick={()=>setEdit(true)}><I.edit style={{width:14,height:14}}/> Edit user</button>
+            </div>
+
+            <div className="stats" style={{gridColumn:'1 / -1'}}>
+              <div className="stat">
+                <div className="label">Smoke-free</div>
+                <div className="value">{p.smokeFree}<span className="unit">days</span></div>
+              </div>
+              <div className="stat">
+                <div className="label">Total score</div>
+                <div className="value">{cumScore}</div>
+              </div>
+              <div className="stat">
+                <div className="label">Quit date</div>
+                <div className="value" style={{fontSize:16, fontWeight:600}}>{p.quitDate}</div>
+              </div>
+              <div className="stat">
+                <div className="label">Last check-in</div>
+                <div className="value" style={{fontSize:14, fontWeight:500, color:'var(--ink-2)'}}>{p.lastCheckIn}</div>
+              </div>
+              <div className="stat">
+                <div className="label">Flipchart</div>
+                <div className="value" style={{fontSize:16}}>
+                  <span className={"badge " + (p.flipchart==='read'?'read':'unread')}>{p.flipchart}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Tabs */}
+          <div className="tabs">
+            {[
+              ['overview',  'Overview',    null],
+              ['checkins',  'Check-ins',   d.checkInLog.length],
+              ['score',     'Score',       d.scoreHistory.length],
+              ['streak',    'Streak',      d.streakLog.length],
+              ['borang',    'Forms',       4],
+            ].map(([k, label, count]) => (
+              <button key={k} className={tab===k?'on':''} onClick={()=>setTab(k)}>
+                {label}{count != null && <span className="count">{count}</span>}
+              </button>
+            ))}
+          </div>
+
+          {tab === 'overview' && <Overview p={p} d={d}/>}
+          {tab === 'checkins' && <CheckInsTab d={d}/>}
+          {tab === 'score'    && <ScoreTab d={d}/>}
+          {tab === 'streak'   && <StreakTab d={d}/>}
+          {tab === 'borang'   && <BorangTab p={p}/>}
+
+          <div className="footnote">
+            All data tied to patient #{p.id.toString().padStart(4,'0')} · PDPA-controlled · Last modified 2 hours ago.
+          </div>
+        </div>
+      </main>
+
+      {edit && (
+        <div className="scrim" onClick={()=>setEdit(false)}>
+          <div className="drawer" onClick={e=>e.stopPropagation()}>
+            <div className="drawer-head">
+              <div>
+                <h3>Edit patient</h3>
+                <div style={{color:'var(--ink-3)', fontSize:12, marginTop:3}}>Updating {p.name}</div>
+              </div>
+              <button className="ic-btn" onClick={()=>setEdit(false)}><I.x style={{width:16,height:16}}/></button>
+            </div>
+            <div className="drawer-body">
+              <div className="field full"><label>Full name</label><input className="input" defaultValue={p.name}/></div>
+              <div className="field"><label>Username</label><input className="input" defaultValue={p.username}/></div>
+              <div className="field"><label>Email</label><input className="input" defaultValue={p.email}/></div>
+              <div className="field"><label>IC</label><input className="input" defaultValue={p.ic}/></div>
+              <div className="field"><label>Age</label><input className="input" type="number" defaultValue={p.age}/></div>
+              <div className="field"><label>Class</label><input className="input" defaultValue={p.class}/></div>
+              <div className="field"><label>Gender</label>
+                <select className="select" defaultValue={p.gender==='F'?'Female':'Male'}>
+                  <option>Female</option><option>Male</option>
+                </select>
+              </div>
+              <div className="field full"><label>School</label>
+                <select className="select" defaultValue={p.schoolId}>
+                  {SCHOOLS.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
+                </select>
+              </div>
+              <div className="field full"><label>Guardian contact</label><input className="input" defaultValue={p.guardian}/></div>
+              <div className="field"><label>Status</label>
+                <select className="select" defaultValue={p.status}>
+                  <option value="active">Active</option>
+                  <option value="quit">Quit</option>
+                  <option value="relapsed">Relapsed</option>
+                  <option value="pending">Pending</option>
+                </select>
+              </div>
+              <div className="field"><label>Quit date</label><input className="input" defaultValue={p.quitDate}/></div>
+            </div>
+            <div className="drawer-foot">
+              <button className="btn" onClick={()=>setEdit(false)}>Cancel</button>
+              <button className="btn teal" onClick={()=>setEdit(false)}><I.check style={{width:14,height:14}}/> Save changes</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

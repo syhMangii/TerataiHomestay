@@ -11,6 +11,7 @@ use App\Models\ScoreHistory;
 use App\Models\QuitDate;
 use App\Models\Streak;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -72,23 +73,46 @@ class AdminController extends Controller
         })
         ->with('school');
 
-    // Filter by school if selected
     if ($request->filled('school')) {
         $query->whereHas('school', function ($q) use ($request) {
             $q->where('name', $request->school);
         });
     }
 
-    // Sort by created_at
-    $sort = $request->input('sort', 'desc'); // default to latest
+    $sort = $request->input('sort', 'desc');
     $query->orderBy('created_at', $sort);
 
-    $users = $query->get();
+    $users  = $query->get();
+    $userIds = $users->pluck('id');
 
-    // Get school list for filter dropdown
+    // Quit status — same logic as dashboard (badge_id = 4)
+    $quitUserIds = DB::table('badge_user')
+        ->where('badge_id', 4)
+        ->whereIn('user_id', $userIds)
+        ->pluck('user_id')
+        ->flip()
+        ->toArray();
+
+    // Smoke-free days — count of 'not smoke' check-ins per user
+    $smokeFreeDays = DB::table('check_ins')
+        ->join('score_histories', 'check_ins.score_history_id', '=', 'score_histories.id')
+        ->whereIn('score_histories.user_id', $userIds)
+        ->where('check_ins.action', 'not smoke')
+        ->select('score_histories.user_id', DB::raw('COUNT(*) as days'))
+        ->groupBy('score_histories.user_id')
+        ->pluck('days', 'score_histories.user_id');
+
+    // Last check-in date per user
+    $lastCheckIns = DB::table('check_ins')
+        ->join('score_histories', 'check_ins.score_history_id', '=', 'score_histories.id')
+        ->whereIn('score_histories.user_id', $userIds)
+        ->select('score_histories.user_id', DB::raw('MAX(check_ins.created_at) as last_at'))
+        ->groupBy('score_histories.user_id')
+        ->pluck('last_at', 'score_histories.user_id');
+
     $schools = School::where('clinic_id', $clinicId)->get();
 
-    return view('Admin.manage-patients', compact('users', 'schools', 'sort'));
+    return view('Admin.manage-patients', compact('users', 'schools', 'sort', 'quitUserIds', 'smokeFreeDays', 'lastCheckIns'));
 }
 
     

@@ -6,7 +6,7 @@
 </div>
 
 <!-- Sponsor Section -->
-<div class="text-center mt-2 mb-3">
+<!-- <div class="text-center mt-2 mb-3">
 <figure>
   <blockquote class="blockquote">
   <p>Enjoy Rewards Powered </p>
@@ -16,6 +16,6 @@
   </figcaption>
 </figure>
     <img src="zus-logo.png" alt="Zus Coffee Logo" class="img-fluid" style="max-height: 180px;">
-</div>
+</div> -->
 
 @include('Include.footer') <!-- Your footer -->

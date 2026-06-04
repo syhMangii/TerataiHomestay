@@ -1,99 +1,114 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\User;
 use App\Models\School;
-use App\Models\Clinic;
-use App\Models\CheckIn;
-use App\Models\QuitDate;
-use App\Models\ScoreHistory;
-use App\Models\Streak;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
-    // public function index()
-    // {
-    //     // Get the total count for users, check-ins, and quit dates
-    //     $totalUsers = User::count();
-    //     $totalCheckIns = CheckIn::count();
-    //     $totalScoreHistories = ScoreHistory::count();
-    
-    //     // Total number of users who have quit smoking (active quit date)
-    //     $totalQuitUsers = QuitDate::where('is_active', true)->count();
-    
-    //     // Example of monthly check-ins for graph
-    //     $checkInsPerMonth = CheckIn::selectRaw("MONTH(date) as month, COUNT(*) as total")
-    //         ->groupBy('month')
-    //         ->pluck('total', 'month');
-    
-    //     return view('Admin.dashboard', compact('totalUsers', 'totalCheckIns', 'totalScoreHistories', 'totalQuitUsers', 'checkInsPerMonth'));
-    // }
+    public function index()
+    {
+        $clinicId = Auth::user()->clinic_id;
+        $schoolIds = School::where('clinic_id', $clinicId)->pluck('id');
+        $userIds   = User::whereIn('school_id', $schoolIds)->where('role', '!=', 'admin')->pluck('id');
 
- public function index()
-{
-   $clinicId = Auth::user()->clinic_id;
+        $totalUsers = $userIds->count();
 
-    // Get school IDs that belong to this clinic
-    $schoolIds = School::where('clinic_id', $clinicId)->pluck('id');
+        $totalQuitUsers = DB::table('badge_user')
+            ->where('badge_id', 4)
+            ->whereIn('user_id', $userIds)
+            ->count();
 
-    // Get users who are connected to those schools
-    $userIds = User::whereIn('school_id', $schoolIds)->pluck('id');
+        $schools = School::where('clinic_id', $clinicId)
+            ->withCount(['users' => fn($q) => $q->where('role', '!=', 'admin')])
+            ->get();
 
-    // Count total users under those schools
-    $totalUsers = $userIds->count();
+        foreach ($schools as $school) {
+            $schoolUserIds = User::where('school_id', $school->id)
+                ->where('role', '!=', 'admin')
+                ->pluck('id');
+            $school->quit_count = DB::table('badge_user')
+                ->where('badge_id', 4)
+                ->whereIn('user_id', $schoolUserIds)
+                ->count();
+        }
 
-    // Count users marked as "quit"
-    $totalQuitUsers = DB::table('badge_user')
-    ->where('badge_id', 4)
-    ->whereIn('user_id', $userIds)
-    ->count();
+        $clinicName = Auth::user()->clinic->name ?? 'Admin';
 
-    // Get check-ins for those users via their score histories
-    $checkInsPerDay = CheckIn::whereIn('score_history_id', function ($query) use ($userIds) {
-            $query->select('id')
-                ->from('score_histories')
-                ->whereIn('user_id', $userIds);
-        })
-        ->selectRaw('DATE(created_at) as day,
-            SUM(CASE WHEN action != "smoke" AND is_continous = 1 THEN 1 ELSE 0 END) as green_count,
-            SUM(CASE WHEN action = "smoke" AND is_continous = 0 THEN 1 ELSE 0 END) as red_count')
-        ->groupBy('day')
-        ->orderBy('day')
-        ->get();
-
-    $checkInLabels = $checkInsPerDay->pluck('day');
-    $greenCounts = $checkInsPerDay->pluck('green_count');
-    $redCounts = $checkInsPerDay->pluck('red_count');
-
-    // 3. Users per School (only schools from this clinic, and only users from this clinic)
-    // Get school IDs under this clinic
-    $schools = School::where('clinic_id', $clinicId)
-        ->withCount(['users' => function ($query) use ($clinicId) {
-            $query->whereHas('school', function ($schoolQuery) use ($clinicId) {
-                $schoolQuery->where('clinic_id', $clinicId);
-            });
-        }])
-        ->get();
-
-        $clinic = Auth::user()->clinic; // Assuming `clinic()` relationship is defined in User model
-        $clinicName = $clinic ? $clinic->name : 'Unknown Clinic';
-
-    return view('Admin.dashboard', compact(
-        'clinicName',
-        'totalUsers',
-        'totalQuitUsers',
-        'schools',
-        'checkInLabels',
-        'greenCounts',
-        'redCounts'
+        return view('Admin.dashboard', compact(
+            'clinicName',
+            'totalUsers',
+            'totalQuitUsers',
+            'schools'
         ));
+    }
+
+    public function schoolPatients(School $school)
+    {
+        // Ensure this school belongs to the logged-in admin's clinic
+        abort_if($school->clinic_id !== Auth::user()->clinic_id, 403);
+
+        $users = User::where('school_id', $school->id)
+            ->where('role', '!=', 'admin')
+            ->get();
+
+        $quitUserIds = DB::table('badge_user')
+            ->where('badge_id', 4)
+            ->whereIn('user_id', $users->pluck('id'))
+            ->pluck('user_id')
+            ->flip()
+            ->toArray();
+
+        $lastCheckin = DB::table('check_ins')
+            ->join('score_histories', 'check_ins.score_history_id', '=', 'score_histories.id')
+            ->whereIn('score_histories.user_id', $users->pluck('id'))
+            ->select('score_histories.user_id', DB::raw('MAX(check_ins.created_at) as last_at'))
+            ->groupBy('score_histories.user_id')
+            ->pluck('last_at', 'score_histories.user_id');
+
+        $smokeFreeDays = DB::table('check_ins')
+            ->join('score_histories', 'check_ins.score_history_id', '=', 'score_histories.id')
+            ->whereIn('score_histories.user_id', $users->pluck('id'))
+            ->where('check_ins.action', 'not smoke')
+            ->select('score_histories.user_id', DB::raw('COUNT(*) as days'))
+            ->groupBy('score_histories.user_id')
+            ->pluck('days', 'score_histories.user_id');
+
+        $enrolledCount = $users->count();
+        $quitCount     = count($quitUserIds);
+        $activeCount   = $enrolledCount - $quitCount;
+        $rate          = $enrolledCount > 0 ? round(($quitCount / $enrolledCount) * 100) : 0;
+
+        return response()->json([
+            'school' => [
+                'id'       => $school->id,
+                'name'     => $school->name,
+                'enrolled' => $enrolledCount,
+                'quit'     => $quitCount,
+                'active'   => $activeCount,
+                'rate'     => $rate,
+            ],
+            'users' => $users->map(function ($user, $i) use ($quitUserIds, $lastCheckin, $smokeFreeDays) {
+                $isQuit   = array_key_exists($user->id, $quitUserIds);
+                $colors   = ['orange', 'teal', 'gray'];
+                return [
+                    'id'          => $user->id,
+                    'username'    => $user->username,
+                    'class_name'  => $user->class_name,
+                    'age'         => $user->age,
+                    'initials'    => strtoupper(substr($user->username, 0, 2)),
+                    'status'      => $isQuit ? 'quit' : 'active',
+                    'color'       => $isQuit ? 'orange' : $colors[$i % 3],
+                    'smoke_free'  => $smokeFreeDays->get($user->id, 0),
+                    'last_checkin'=> $lastCheckin->get($user->id)
+                        ? \Carbon\Carbon::parse($lastCheckin->get($user->id))->format('Y-m-d')
+                        : null,
+                    'detail_url'  => route('admin.userDetails', $user->id),
+                ];
+            })->values(),
+        ]);
+    }
 }
-
-}
-
-
-
-

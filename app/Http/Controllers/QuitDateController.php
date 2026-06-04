@@ -16,6 +16,10 @@ class QuitDateController extends Controller
 
         $user = Auth::user();
 
+        if (!$user->is_read) {
+            return redirect()->back()->with('error', 'You must complete the flipchart before setting a quit date.');
+        }
+
         // Deactivate current active quit date
         QuitDate::where('user_id', $user->id)
             ->where('is_active', true)
